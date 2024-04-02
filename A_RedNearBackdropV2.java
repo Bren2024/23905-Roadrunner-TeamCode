@@ -66,7 +66,10 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonFlickPixel(this,2000,100);
                 })
-                .waitSeconds(3)
+                .waitSeconds(2)
+                .lineToLinearHeading(new Pose2d(25,-54, Math.toRadians(0)))
+                //.lineToLinearHeading(new Pose2d(21,-44, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(48,-42, Math.toRadians(0)))
 //                .strafeTo(new Vector2d(50, -42),
 //                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
 //                        SampleSwerveDrive.getAccelerationConstraint(15))

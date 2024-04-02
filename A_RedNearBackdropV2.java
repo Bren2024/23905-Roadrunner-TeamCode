@@ -17,6 +17,7 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
     private SampleSwerveDrive drive;
     private Goggles2V3AS goggles2 = new Goggles2V3AS();
     private PiranhaDogV4AS piranhadog = new PiranhaDogV4AS();
+    private PiranhaTailAS piranhatail = new PiranhaTailAS();
     private FreezeRay4BarV1AS freezeray = new FreezeRay4BarV1AS();
     private String gstrClassName=this.getClass().getSimpleName();
 
@@ -32,6 +33,7 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
 
         piranhadog.initialize(this);
         freezeray.initialize(this);
+        piranhatail.initialize(this,piranhatail.TAIL_INIT_AUTON);
 
         Pose2d startPose = new Pose2d(14.75, -62.5, Math.toRadians(0));
 
@@ -61,10 +63,10 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
 
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(20,-44, Math.toRadians(60)))
-//                .addTemporalMarker(() -> {
-//                    piranhadog.autonSpitPixel(this, 750, 1000);
-//                })
-//                .waitSeconds(2)
+                .addTemporalMarker(() -> { // Can call other parts of the robot
+                    piranhatail.autonFlickPixel(this,2000,100);
+                })
+                .waitSeconds(3)
 //                .strafeTo(new Vector2d(50, -42),
 //                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
 //                        SampleSwerveDrive.getAccelerationConstraint(15))
@@ -102,12 +104,12 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
 //                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
 
 //        freezeray.autonShootPixel2(this,freezeray.RAY_POS_UNHOLSTER,0.472,0.528,0.59,2000,7000);
-        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
+//        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
 //        drive.followTrajectory(moveToPark);
-        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(startPose)
-                .build();
-        drive.followTrajectory(returnBack);
+//        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+//                .lineToLinearHeading(startPose)
+//                .build();
+//        drive.followTrajectory(returnBack);
     }
 
     private Trajectory buildCorrectionTrajectory(Pose2d pose) {

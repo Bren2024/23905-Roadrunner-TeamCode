@@ -60,14 +60,14 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
                 .build();
 
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(33,-36, Math.toRadians(0)))
-                .addTemporalMarker(() -> {
-                    piranhadog.autonSpitPixel(this, 750, 1000);
-                })
-                .waitSeconds(2)
-                .strafeTo(new Vector2d(50, -42),
-                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleSwerveDrive.getAccelerationConstraint(15))
+                .lineToLinearHeading(new Pose2d(20,-44, Math.toRadians(60)))
+//                .addTemporalMarker(() -> {
+//                    piranhadog.autonSpitPixel(this, 750, 1000);
+//                })
+//                .waitSeconds(2)
+//                .strafeTo(new Vector2d(50, -42),
+//                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleSwerveDrive.getAccelerationConstraint(15))
                 .build();
 
         telemetry.addData(gstrClassName, "Initialized");

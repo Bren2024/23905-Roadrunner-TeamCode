@@ -40,7 +40,7 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence leftTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(12, -36, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(14, -36, Math.toRadians(180)))
                 .addTemporalMarker(() -> {
                     piranhadog.autonSpitPixel(this, 750, 1000);
                 })
@@ -62,14 +62,14 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
                 .build();
 
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(20,-44, Math.toRadians(60)))
+                .lineToLinearHeading(new Pose2d(19,-46, Math.toRadians(60)))
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonFlickPixel(this,2000,100);
                 })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(25,-54, Math.toRadians(0)))
+                .waitSeconds(2) //let pixel drop on floor
+                .lineToLinearHeading(new Pose2d(24,-55, Math.toRadians(0)))
                 //.lineToLinearHeading(new Pose2d(21,-44, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(48,-42, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(49,-42, Math.toRadians(0)))
 //                .strafeTo(new Vector2d(50, -42),
 //                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
 //                        SampleSwerveDrive.getAccelerationConstraint(15))
@@ -102,17 +102,19 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
             drive.followTrajectorySequence(rightTraj);
             drive.followTrajectory(buildCorrectionTrajectory(rightTraj.end(), 5, 5));
         }
-//        Trajectory moveToPark = drive.trajectoryBuilder(chosenTraj.end())
-//                .strafeTo(new Vector2d(48, -60))
-//                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
 
-//        freezeray.autonShootPixel2(this,freezeray.RAY_POS_UNHOLSTER,0.472,0.528,0.59,2000,7000);
-//        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
+//        Trajectory moveToPark = drive.trajectoryBuilder(chosenTraj.end())
+//             .strafeTo(new Vector2d(48, -60))
+//                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
+        //freezeray.autonShootPixel2(this,freezeray.RAY_POS_UNHOLSTER,0.472,0.528,0.59,2000,7000);
+        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
+
 //        drive.followTrajectory(moveToPark);
-//        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
-//                .lineToLinearHeading(startPose)
-//                .build();
-//        drive.followTrajectory(returnBack);
+        //COMMENT OUT BELOW WHEN DONE!!
+        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                .lineToLinearHeading(startPose)
+                .build();
+        drive.followTrajectory(returnBack);
     }
 
     private Trajectory buildCorrectionTrajectory(Pose2d pose) {

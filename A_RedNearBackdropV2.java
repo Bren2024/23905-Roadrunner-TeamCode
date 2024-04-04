@@ -42,29 +42,29 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
         TrajectorySequence leftTraj = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(9,-42, Math.toRadians(135)))
                 .addTemporalMarker(() -> { // Can call other parts of the robot
-                    piranhatail.autonFlickPixel(this,2000,100);
+                    piranhatail.autonFlickPixel(this,2500,100);
                 })
-                .waitSeconds(2) //let pixel drop on floor
+                .waitSeconds(2.5) //let pixel drop on floor
                 .lineToLinearHeading(new Pose2d(49,-42, Math.toRadians(0)))
                 .build();
 
-        TrajectorySequence midTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(15, -36, Math.toRadians(90)))
-                .addTemporalMarker(() -> {
-                    piranhatail.autonFlickPixel(this,2000,100);
-                })
-                .waitSeconds(2) //let pixel drop on floor
-                .lineToLinearHeading(new Pose2d(50, -35, Math.toRadians(0)))
+        TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(18, -34, Math.toRadians(90)))
+                .build();
+
+        TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
+                .strafeTo(new Vector2d(18, -37))
+                .lineToLinearHeading(new Pose2d(50, -36, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(19,-46, Math.toRadians(60)))
                 .addTemporalMarker(() -> { // Can call other parts of the robot
-                    piranhatail.autonFlickPixel(this,2000,100);
+                    piranhatail.autonFlickPixel(this,2500,100);
                 })
-                .waitSeconds(2) //let pixel drop on floor
+                .waitSeconds(2.5) //let pixel drop on floor
                 .lineToLinearHeading(new Pose2d(24,-55, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(49,-42, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
                 .build();
 
         telemetry.addData(gstrClassName, "Initialized");
@@ -87,8 +87,11 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
             drive.followTrajectory(buildCorrectionTrajectory(leftTraj.end(), 5, 5));
         }
         else if (nPropPos == goggles2.PROP_MID) {
-            drive.followTrajectorySequence(midTraj);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj.end(), 5, 5));
+            drive.followTrajectorySequence(midTraj1);
+            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 5, 5));
+            piranhatail.autonFlickPixel(this,2200,100);
+            drive.followTrajectorySequence(midTraj2);
+            drive.followTrajectory(buildCorrectionTrajectory(midTraj2.end(), 10, 10));
         }
         else {
             drive.followTrajectorySequence(rightTraj);
@@ -103,10 +106,14 @@ public class A_RedNearBackdropV2 extends LinearOpMode {
 
 //        drive.followTrajectory(moveToPark);
         //TODO: COMMENT OUT BELOW WHEN DONE!!
-        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+        TrajectorySequence returnBack = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+//                .addTemporalMarker(() -> {
+//                    freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
+//                })
+//                .waitSeconds(8)
                 .lineToLinearHeading(startPose)
                 .build();
-        drive.followTrajectory(returnBack);
+        drive.followTrajectorySequence(returnBack);
     }
 
     private Trajectory buildCorrectionTrajectory(Pose2d pose) {

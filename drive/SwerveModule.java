@@ -204,7 +204,7 @@ public class SwerveModule {
 
         //get voltage of servos
         double servoPosition = getModuleRotation();
-        if ((servoPosition<=target+0.3) && (servoPosition>=target-0.3)) {
+        if ((servoPosition<=target+0.6) && (servoPosition>=target-0.6)) {
             //if got here, all rotations complete
             waitingForTarget[id] = false;
         }

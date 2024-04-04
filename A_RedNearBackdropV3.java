@@ -41,40 +41,45 @@ public class A_RedNearBackdropV3 extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence leftTraj = drive.trajectorySequenceBuilder(startPose)
-                .addTemporalMarker(0.38, 0, () -> {
+                .addTemporalMarker(2, () -> {
                     piranhadog.setTeethPwr(0.45);
                 })
-                .addTemporalMarker(0.5, 0, () -> {
+                .addTemporalMarker(2.5, () -> {
                     piranhadog.setTeethPwr(0);
                 })
-                .splineToConstantHeading(new Vector2d(14.75, -62), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(12, -32), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(50, -30), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(14.75, -62), Math.toRadians(90)) // Start strafing left
+                .splineToConstantHeading(new Vector2d(12, -32), Math.toRadians(90)) // Center on tile
+                .splineToConstantHeading(new Vector2d(22, -23), Math.toRadians(0)) // Gradually turn wheels towards board
+                .splineToConstantHeading(new Vector2d(50, -30), Math.toRadians(0)) // Line up at board
                 .build();
 
         TrajectorySequence midTraj = drive.trajectorySequenceBuilder(startPose)
-                .strafeTo(new Vector2d(26, -24))
-                .addTemporalMarker(() -> {
-                    piranhatail.autonFlickPixel(this,2000,100);
+                .addTemporalMarker(2.7, () -> {
+                    piranhadog.setTeethPwr(0.45);
                 })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(50, -35, Math.toRadians(0)),
-                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleSwerveDrive.getAccelerationConstraint(15))
+                .addTemporalMarker(3.1, () -> {
+                    piranhadog.setTeethPwr(0);
+                })
+                .splineToConstantHeading(new Vector2d(14.75, -62), Math.toRadians(90)) // Start strafing left
+                .splineToConstantHeading(new Vector2d(12, -32), Math.toRadians(90)) // Center on tile
+                .splineToConstantHeading(new Vector2d(22, -23), Math.toRadians(0)) // Gradually turn wheels towards board
+                .splineToConstantHeading(new Vector2d(50, -35), Math.toRadians(0)) // Line up at board
                 .build();
 
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(20,-44, Math.toRadians(60)))
-                .addTemporalMarker(() -> { // Can call other parts of the robot
-                    piranhatail.autonFlickPixel(this,2000,100);
+                .setConstraints(
+                        SampleSwerveDrive.getVelocityConstraint(20, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleSwerveDrive.getAccelerationConstraint(15)
+                )
+                .addTemporalMarker(2.7, () -> {
+                    piranhadog.setTeethPwr(0.45);
                 })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(25,-54, Math.toRadians(0)))
-                //.lineToLinearHeading(new Pose2d(21,-44, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(48,-42, Math.toRadians(0)))
-//                .strafeTo(new Vector2d(50, -42),
-//                        SampleSwerveDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleSwerveDrive.getAccelerationConstraint(15))
+                .addTemporalMarker(3.2, () -> {
+                    piranhadog.setTeethPwr(0);
+                })
+                .splineToConstantHeading(new Vector2d(14.75, -62), Math.toRadians(75)) // Start off strafing at 75˚
+                .splineToConstantHeading(new Vector2d(30, -36), Math.toRadians(0)) // Moving horizontal while dropping pixel
+                .splineToConstantHeading(new Vector2d(50, -42), Math.toRadians(0)) // Line up with board
                 .build();
 
         telemetry.addData(gstrClassName, "Initialized");

@@ -19,8 +19,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -34,7 +32,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
 
-public class DroneV1AS {
+public class LauncherV1AS {
     
     //this class name
     private String gstrClassName=this.getClass().getSimpleName();

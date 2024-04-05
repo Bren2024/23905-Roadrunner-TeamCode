@@ -35,6 +35,7 @@ public class SwerveModule {
     public static boolean MOTOR_FLIPPING = true;
 
     public static double FLIP_BIAS = Math.toRadians(15);
+    public static double SERVO_TOLERANCE = Math.toRadians(30);
 
 
     private DcMotorEx motor;
@@ -204,7 +205,7 @@ public class SwerveModule {
 
         //get voltage of servos
         double servoPosition = getModuleRotation();
-        if ((servoPosition<=target+0.3) && (servoPosition>=target-0.3)) {
+        if (target-SERVO_TOLERANCE<=servoPosition && servoPosition<=target+SERVO_TOLERANCE) {
             //if got here, all rotations complete
             waitingForTarget[id] = false;
         }

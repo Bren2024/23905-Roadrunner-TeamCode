@@ -1,56 +1,28 @@
-/*
-Copyright 2021 FIRST Tech Challenge Team FTC
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-associated documentation files (the "Software"), to deal in the Software without restriction,
-including without limitation the rights to use, copy, modify, merge, publish, distribute,
-sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial
-portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-/**
- * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *com.qualcomm
- * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
- * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
- */
+public class PiranhaTailAS {
 
-public class PiranhaDogV4AS {
-
+    // todo: write your code here
     //this class name
     private String gstrClassName=this.getClass().getSimpleName();
 
     //Declare OpMode members
-    private DcMotor mtrTeeth;
+    //private DcMotor mtrTeeth;
     // private Servo srvoPiranhaDogLeft,srvoPiranhaDogRight;
-    private Servo srvoJaw;
+    private Servo srvoTail;
     // private Servo srvoThroatU;
     // private Servo srvoThroatL;
     // private Servo srvoPaw;
     // private Servo srvoTongue;
 
     //motor constants
-    private static Double TEETH_EAT_PWR=-.85d, TEETH_PUKE_PWR=.5d, TEETH_REST_PWR = 0d;
+    //private static Double TEETH_EAT_PWR=-.85d, TEETH_PUKE_PWR=.5d, TEETH_REST_PWR = 0d;
 
 
     //goBildaServer
@@ -73,17 +45,20 @@ public class PiranhaDogV4AS {
     //srvoJaw is this kind of servo
     //(800-500)/2000 = .15 MIN VALUE
     //(2200-500)/2000 = .85 MAX VALUE
-    private static double JAW_OPEN = .8125d;
-    private static double JAW_LARGE_BITE = .75d;
-    private static double JAW_MEDIUM_BITE = .735d;
-    private static double JAW_SMALL_BITE = .725d;
-    private static double JAW_SPITA = .6d;
-    private static double JAW_SPITB = .4d;
-    private static double JAW_STOP = .8d;
+    private static double TAIL_BETWEEN_LEGS = .493d;
+    private static double TAIL_REST = .48d;
+    private static double TAIL_FLICK = .32d; //.5  - very little,  .3 - too much, .07 - too much, .8 - other way
+    public static int TAIL_INIT_AUTON = 0;
+    public static int TAIL_INIT_TELEOP = 1;
+    // private static double JAW_MEDIUM_BITE = .735d;
+    // private static double JAW_SMALL_BITE = .725d;
+    // private static double JAW_SPITA = .6d;
+    // private static double JAW_SPITB = .4d;
+    // private static double JAW_STOP = .8d;
 
 
 
-    private static Double STICK_DEAD_ZONE=.5;
+    //private static Double STICK_DEAD_ZONE=.5;
 /*
     private final int CAPSTATE_IDLE=0;
     private final int CAPSTATE_BITING = 1;
@@ -96,7 +71,7 @@ public class PiranhaDogV4AS {
     */
 
 
-    public void initialize(OpMode opMode) {
+    public void initialize(OpMode opMode,int nInitMode) {
 
         opMode.telemetry.addData(gstrClassName, "Initializing...");
         //opMode.telemetry.addData(gstrClassName, "    Body must be up");
@@ -104,14 +79,14 @@ public class PiranhaDogV4AS {
 
         //PiranhaDog Motor
 
-        mtrTeeth = opMode.hardwareMap.get(DcMotor.class, "mtrTeeth");
-        mtrTeeth.setDirection(DcMotorSimple.Direction.REVERSE);
-        mtrTeeth.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mtrTeeth.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        // mtrTeeth = opMode.hardwareMap.get(DcMotor.class, "mtrTeeth");
+        // mtrTeeth.setDirection(DcMotorSimple.Direction.REVERSE);
+        // mtrTeeth.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // //mtrPiranhaDog.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
 
-        // mtrTeeth.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mtrTeeth.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        mtrTeeth.setPower(TEETH_REST_PWR);
+        // mtrTeeth.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        // mtrTeeth.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // mtrTeeth.setPower(TEETH_REST_PWR);
 
         //PiranhaDog Servos
         // srvoPiranhaDogLeft = opMode.hardwareMap.get(Servo.class, "srvoPiranhaDogLeft");
@@ -119,8 +94,14 @@ public class PiranhaDogV4AS {
         // srvoPiranhaDogRight = opMode.hardwareMap.get(Servo.class, "srvoPiranhaDogRight");
         // srvoPiranhaDogRight.setPosition(PIRANHADOG_RIGHT_OPEN);
 
-        srvoJaw = opMode.hardwareMap.get(Servo.class, "srvoJaw");
-        srvoJaw.setPosition(JAW_OPEN);
+        srvoTail = opMode.hardwareMap.get(Servo.class, "srvoTail");
+        if(nInitMode==TAIL_INIT_AUTON) {
+            srvoTail.setPosition(TAIL_REST);
+        } else {
+            srvoTail.setPosition(TAIL_BETWEEN_LEGS);
+        }
+
+
 
 
 
@@ -144,59 +125,65 @@ public class PiranhaDogV4AS {
     }
 
     public void operate(OpMode opMode) {
-        opMode.telemetry.addData("PiranhaDog","Jaw:%.2f",
-                srvoJaw.getPosition());
+        opMode.telemetry.addData("PiranhaTail","Tail:%.2f",
+                srvoTail.getPosition());
 
         // move upper jaw
         if (opMode.gamepad2.dpad_up){
-            srvoJaw.setPosition(JAW_OPEN);
-            mtrTeeth.setPower(TEETH_PUKE_PWR);
+            srvoTail.setPosition(TAIL_FLICK);
+            // mtrTeeth.setPower(TEETH_PUKE_PWR);
             return;
         }
-        else if (opMode.gamepad2.dpad_down){
-            srvoJaw.setPosition(JAW_SMALL_BITE);
-            mtrTeeth.setPower(TEETH_EAT_PWR);
-            return;
-        }
-        else if (opMode.gamepad2.dpad_left){
-            srvoJaw.setPosition(JAW_MEDIUM_BITE);
-            mtrTeeth.setPower(TEETH_EAT_PWR);
-            return;
-        }
-        else if (opMode.gamepad2.dpad_right){
-            srvoJaw.setPosition(JAW_LARGE_BITE);
-            mtrTeeth.setPower(TEETH_EAT_PWR);
-            return;
-        }
+        // else if (opMode.gamepad2.dpad_down){
+        //     srvoTail.setPosition(JAW_SMALL_BITE);
+        //   // mtrTeeth.setPower(TEETH_EAT_PWR);
+        //     return;
+        // }
+        // else if (opMode.gamepad2.dpad_left){
+        //     srvoJaw.setPosition(JAW_MEDIUM_BITE);
+        //     mtrTeeth.setPower(TEETH_EAT_PWR);
+        //     return;
+        // }
+        // else if (opMode.gamepad2.dpad_right){
+        //     srvoJaw.setPosition(JAW_LARGE_BITE);
+        //     mtrTeeth.setPower(TEETH_EAT_PWR);
+        //     return;
+        // }
 
         // srvoTongue.setPosition(TONGUE_IN);
         //intake
 
         if(opMode.gamepad2.left_bumper) {//intake pixel
-            mtrTeeth.setPower(TEETH_EAT_PWR);
+            srvoTail.setPosition(TAIL_BETWEEN_LEGS);
             return;
         }
-        else if(opMode.gamepad2.left_trigger >= .5){//eject pixel
-            mtrTeeth.setPower(TEETH_PUKE_PWR);
-            return;
-        }
-        else {
-            srvoJaw.setPosition(JAW_OPEN);
-            mtrTeeth.setPower(TEETH_REST_PWR);
-        }
+        // else if(opMode.gamepad2.left_trigger >= .5){//eject pixel
+        //     mtrTeeth.setPower(TEETH_PUKE_PWR);
+        //     return;
+        // }
+        // else {
+        //     srvoJaw.setPosition(TAIL_REST);
+        //     mtrTeeth.setPower(TEETH_REST_PWR);
+        // }
 
 
 
 
     }
 
-    public void autonSpitPixel(LinearOpMode linopMode,long lSpitMSec,long lDroolMSec) {
-        srvoJaw.setPosition(JAW_SMALL_BITE);
-        linopMode.sleep(1000);
-        mtrTeeth.setPower(TEETH_EAT_PWR + .4);
-        linopMode.sleep(1000);
-        srvoJaw.setPosition(JAW_OPEN);
-        mtrTeeth.setPower(0);
+    public void autonFlickPixel(LinearOpMode linopMode,long lSpitMSec,long lDroolMSec) {
+
+
+        srvoTail.setPosition(TAIL_FLICK);
+        //linopMode.sleep(7000);
+        linopMode.sleep(lSpitMSec);
+        //mtrTeeth.setPower(TEETH_EAT_PWR + .4);
+        // linopMode.sleep(1000);
+        srvoTail.setPosition(TAIL_BETWEEN_LEGS);
+
+        // mtrTeeth.setPower(TEETH_PUKE_PWR - .2);
+        //linopMode.sleep(5000);
+        //mtrTeeth.setPower(0);
 
         //srvoTongue.setPosition(TONGUE_OUT);
         //linopMode.sleep(500);
@@ -205,11 +192,11 @@ public class PiranhaDogV4AS {
         // srvoThroatL.setPosition(.21);
 
         // srvoJaw.setPosition(JAW_SPITA);//eject slowly
-        // linopMode.sleep(lSpitMSec);//pixel on mat
+        // linopMode.sleep(lSpitMSec);//pixel on matt
         // srvoJaw.setPosition(JAW_STOP);
 
         // srvoJaw.setPosition(JAW_SPITB);//retract jaw
-        // linopMode.sleep(lDroolMSec);//pixel on mat
+        //linopMode.sleep(lDroolMSec);//pixel on matt
         // srvoJaw.setPosition(JAW_STOP);
         // srvoTongue.setPosition(TONGUE_IN);
 
@@ -218,9 +205,6 @@ public class PiranhaDogV4AS {
 
     }
 
-    public void setTeethPwr(double power) {
-        mtrTeeth.setPower(power);
-    }
 
     public void shutdown(OpMode opMode) {
         return;

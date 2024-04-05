@@ -56,7 +56,7 @@ public class A_BlueNearBackdropV1 extends LinearOpMode {
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 .strafeTo(new Vector2d(18, 37))
-                .lineToLinearHeading(new Pose2d(50,32.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(49.5,32.5, Math.toRadians(0)))
                 .build();
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(11,36, Math.toRadians(180)))
@@ -90,7 +90,7 @@ public class A_BlueNearBackdropV1 extends LinearOpMode {
         }
         else if (nPropPos == goggles2.PROP_MID) {
             drive.followTrajectorySequence(midTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 5));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(midTraj2);
             drive.followTrajectory(buildCorrectionTrajectory(midTraj2.end(), 10, 10));

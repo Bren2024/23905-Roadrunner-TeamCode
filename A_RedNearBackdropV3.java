@@ -111,10 +111,12 @@ public class A_RedNearBackdropV3 extends LinearOpMode {
         }
 //        freezeray.autonShootPixel2(this,freezeray.RAY_POS_UNHOLSTER,0.472,0.528,0.59,2000,7000);
         freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
-//        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
-//                .lineToLinearHeading(startPose)
-//                .build();
-//        drive.followTrajectory(returnBack);
+//        TrajectorySequence moveToOtherside = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+//                .splineToConstantHeading(new Pose2d())
+        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                .lineToLinearHeading(startPose)
+                .build();
+        drive.followTrajectory(returnBack);
     }
 
     private Trajectory buildCorrectionTrajectory(Pose2d pose) {

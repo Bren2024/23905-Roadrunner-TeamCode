@@ -51,12 +51,12 @@ public class A_BlueNearBackdropV1 extends LinearOpMode {
                 .build();
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(18, 34, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(15, 34, Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 .strafeTo(new Vector2d(18, 37))
-                .lineToLinearHeading(new Pose2d(50,35, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,32, Math.toRadians(0)))
                 .build();
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(11,36, Math.toRadians(180)))

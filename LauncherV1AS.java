@@ -84,7 +84,7 @@ public class LauncherV1AS {
 
         //Vector Servo
         srvoVector = opMode.hardwareMap.get(Servo.class, "srvoVector");
-        srvoVector.setPosition(.5);
+        srvoVector.setPosition(0);
         
         //PiranhaDog Servos
         // srvoPiranhaDogLeft = opMode.hardwareMap.get(Servo.class, "srvoPiranhaDogLeft");
@@ -108,7 +108,7 @@ public class LauncherV1AS {
         srvoVector.getPosition());
 
         if(opMode.gamepad2.guide) {
-            srvoVector.setPosition(.2);
+            srvoVector.setPosition(.4);
         }
     }
     public void shutdown(OpMode opMode) {

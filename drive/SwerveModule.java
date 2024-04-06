@@ -173,7 +173,7 @@ public class SwerveModule {
 
             //flip target
             wheelFlipped = (Math.abs(current - target) > (Math.PI / 2 - flipModifier()*FLIP_BIAS))
-                    || (Math.abs(target) > 2.9); // 2.9: Maximum number of radians the module can turn
+                    || (Math.abs(target) > 3); // 3: Maximum number of radians the module can turn
 
             // Unflip target if flipped target is over 2.9
             if (wheelFlipped && Math.abs(target) < Math.PI - 2.9) {

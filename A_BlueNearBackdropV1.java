@@ -51,20 +51,20 @@ public class A_BlueNearBackdropV1 extends LinearOpMode {
                 .build();
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(15, 35, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(15, 34, Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
-                .strafeTo(new Vector2d(15, 38))
-                .lineToLinearHeading(new Pose2d(49,35.5, Math.toRadians(0)))
+                .strafeTo(new Vector2d(18, 37))
+                .lineToLinearHeading(new Pose2d(50,32, Math.toRadians(0)))
                 .build();
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(11,38.5, Math.toRadians(-179)))
+                .lineToLinearHeading(new Pose2d(11,36, Math.toRadians(180)))
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
                 .waitSeconds(2) //let pixel drop on floor
-                .lineToLinearHeading(new Pose2d(51,27, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51,29, Math.toRadians(0)))
                 .build();
 
 
@@ -90,7 +90,7 @@ public class A_BlueNearBackdropV1 extends LinearOpMode {
         }
         else if (nPropPos == goggles2.PROP_MID) {
             drive.followTrajectorySequence(midTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 5));
+            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(midTraj2);
             drive.followTrajectory(buildCorrectionTrajectory(midTraj2.end(), 10, 10));

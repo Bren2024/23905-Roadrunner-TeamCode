@@ -84,7 +84,7 @@ public class FreezeRay4BarV1AS {
     public static int RAY_POS_ONE =2000;
     public static int RAY_POS_TWO = 2300;
     public static int RAY_POS_THREE = 2800;
-    public static int RAY_POS_AUTO = 1400;
+    public static int RAY_POS_AUTO = 1500;
 
     private static long RAY_POS_INCR = 50l;
     private static double BIPOD_LEFT_NEUTRAL = .504d;

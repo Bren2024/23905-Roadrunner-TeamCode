@@ -108,7 +108,7 @@ public class LauncherV1AS {
         srvoVector.getPosition());
 
         if(opMode.gamepad2.guide) {
-            srvoVector.setPosition(.4);
+            srvoVector.setPosition(.13);
         }
     }
     public void shutdown(OpMode opMode) {

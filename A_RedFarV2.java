@@ -98,6 +98,11 @@ public class A_RedFarV2 extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
                 .build();
 
+        TrajectorySequence moveToBackboard = drive.trajectorySequenceBuilder(new Pose2d())
+                .splineToConstantHeading(new Vector2d(0, -58.5), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(50, -35), Math.toRadians(30))
+                .build();
+
         telemetry.addData(gstrClassName, "Initialized");
         telemetry.update();
 

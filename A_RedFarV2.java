@@ -72,17 +72,30 @@ public class A_RedFarV2 extends LinearOpMode {
 
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
+                .lineToLinearHeading(new Pose2d(-45, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
+                    piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
+                })
+
                 .lineToLinearHeading(new Pose2d(-35, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .addTemporalMarker(() -> { // Can call other parts of the robot
+                    piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_FLICK);
+                })
+
+
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
                 //go to wall
                 .lineToLinearHeading(new Pose2d(-36.75, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                .lineToLinearHeading(new Pose2d(-36.75, -59, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(-36.75, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .addTemporalMarker(() -> { // Can call other parts of the robot
+                    piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_BETWEEN_LEGS);
+                })
                 //go past truss
-                .lineToLinearHeading(new Pose2d(10.0, -59, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 //go to backdrop
-                //.lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
                 .build();
 
         telemetry.addData(gstrClassName, "Initialized");
@@ -103,7 +116,7 @@ public class A_RedFarV2 extends LinearOpMode {
         if (nPropPos == goggles2.PROP_RIGHT) {
             drive.followTrajectorySequence(rightTraj1);
             drive.followTrajectory(buildCorrectionTrajectory(rightTraj1.end(), 10, 10));
-            piranhatail.autonFlickPixel(this,2200,100);
+            //piranhatail.autonHFlickPixel(this,2200,2000);
             drive.followTrajectorySequence(rightTraj2);
             drive.followTrajectory(buildCorrectionTrajectory(rightTraj2.end(), 10, 10));
         }

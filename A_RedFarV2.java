@@ -72,30 +72,33 @@ public class A_RedFarV2 extends LinearOpMode {
 
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-45, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(-45, -36, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
 
-                .lineToLinearHeading(new Pose2d(-35, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(-37.5, -36, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_FLICK);
+                    sleep(1000);
+                    piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
+                .waitSeconds(1.5)
 
 
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
                 //go to wall
-                .lineToLinearHeading(new Pose2d(-36.75, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(-44, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 .lineToLinearHeading(new Pose2d(-36.75, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                .addTemporalMarker(() -> { // Can call other parts of the robot
+                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_BETWEEN_LEGS);
                 })
+                .waitSeconds(0.5)
                 //go past truss
-                .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                //go to backdrop
-                .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
+                .splineToLinearHeading(new Pose2d(0, -58.5, 0), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(51.5, -42, 0), Math.toRadians(30))
                 .build();
 
         TrajectorySequence moveToBackboard = drive.trajectorySequenceBuilder(new Pose2d())
@@ -142,12 +145,12 @@ public class A_RedFarV2 extends LinearOpMode {
             drive.followTrajectory(buildCorrectionTrajectory(leftTraj3.end(), 10, 10));
         }
 
-//        Trajectory moveToPark = drive.trajectoryBuilder(chosenTraj.end())
-//             .strafeTo(new Vector2d(48, -60))
-//                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
-        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
+        Trajectory moveToPark = drive.trajectoryBuilder(drive.getPoseEstimate())
+             .strafeTo(new Vector2d(50, -12))
+                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
+        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);//.472, .524
 
-//        drive.followTrajectory(moveToPark);
+        drive.followTrajectory(moveToPark);
         //TODO: COMMENT OUT BELOW WHEN DONE!!
         TrajectorySequence returnBack = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 //go to front of truss

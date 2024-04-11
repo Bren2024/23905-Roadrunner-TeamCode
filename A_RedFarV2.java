@@ -41,7 +41,7 @@ public class A_RedFarV2 extends LinearOpMode {
 
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-46.0, -46, Math.toRadians(90))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(-46.0, -44.5, Math.toRadians(90))) //x:18-48(two tiles)-8 (other side of prop)
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())

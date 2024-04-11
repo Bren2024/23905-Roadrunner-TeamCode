@@ -723,8 +723,8 @@ public class FreezeRay4BarV1AS {
          mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
          mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-         mtrFreezeRayLeft.setTargetPosition(RAY_POS_AUTO);
-         mtrFreezeRayRight.setTargetPosition(RAY_POS_AUTO);
+         mtrFreezeRayLeft.setTargetPosition(RAY_POS_AUTO_LIFT);
+         mtrFreezeRayRight.setTargetPosition(RAY_POS_AUTO_LIFT);
          mtrFreezeRayLeft.setPower(RAY_PWR/2);
          mtrFreezeRayRight.setPower(RAY_PWR/2);
 

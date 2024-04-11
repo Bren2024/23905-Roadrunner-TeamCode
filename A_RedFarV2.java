@@ -58,7 +58,7 @@ public class A_RedFarV2 extends LinearOpMode {
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-38.0, -33, Math.toRadians(90))) //x:18-48(two tiles)-8 (other side of prop)
+                .lineToLinearHeading(new Pose2d(-39.5, -33.5, Math.toRadians(90))) //x:18-48(two tiles)-8 (other side of prop)
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
@@ -67,7 +67,7 @@ public class A_RedFarV2 extends LinearOpMode {
                 //go past truss
                 .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 //go to backdrop
-                .lineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,-34, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
@@ -119,7 +119,7 @@ public class A_RedFarV2 extends LinearOpMode {
         telemetry.update();
 
         if (nPropPos == goggles2.PROP_NONE)
-            nPropPos = goggles2.PROP_RIGHT;
+            nPropPos = goggles2.PROP_MID;
 
         if (nPropPos == goggles2.PROP_RIGHT) {
             drive.followTrajectorySequence(rightTraj1);

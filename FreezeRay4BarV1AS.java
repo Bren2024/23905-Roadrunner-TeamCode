@@ -86,6 +86,8 @@ public class FreezeRay4BarV1AS {
     public static int RAY_POS_THREE = 2800;
     public static int RAY_POS_AUTO = 1500;
 
+    public static int RAY_POS_AUTO_LIFT = 1700;
+
     private static long RAY_POS_INCR = 50l;
     private static double BIPOD_LEFT_NEUTRAL = .504d;
     private static double BIPOD_RIGHT_NEUTRAL = .499d; //.498 too high, .504 too low, .501 too low
@@ -508,9 +510,11 @@ public class FreezeRay4BarV1AS {
         
         mtrFreezeRayRight.setPower(0);
         mtrFreezeRayLeft.setPower(0);
-        if(!bShot) return;
+        if(!bShot) {
+            return;
+        }
         //lower FreezeRay
-        
+
         unholsterFreezeRay();
         linopMode.sleep(1200);
         
@@ -711,9 +715,21 @@ public class FreezeRay4BarV1AS {
         
         mtrFreezeRayRight.setPower(0);
         mtrFreezeRayLeft.setPower(0);
-        if(!bShot) return;
-        //lower FreezeRay
-        
+        if(!bShot) {
+            return;
+        }
+        //raise FreezeRay slightly so as not to hit pixel
+         mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         mtrFreezeRayLeft.setTargetPosition(RAY_POS_AUTO);
+         mtrFreezeRayRight.setTargetPosition(RAY_POS_AUTO);
+         mtrFreezeRayLeft.setPower(RAY_PWR/2);
+         mtrFreezeRayRight.setPower(RAY_PWR/2);
+
+
+         // lower FreezeRay
         unholsterFreezeRay();
         srvoTrigger.setPosition(TRIGGER_CLOSE);
         

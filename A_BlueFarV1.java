@@ -41,11 +41,11 @@ public class A_BlueFarV1 extends LinearOpMode {
         ///////////////////LEFT//////////////////
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-42, 32, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-45, 32, Math.toRadians(0))) //-40
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
-                .lineToLinearHeading(new Pose2d(-38.5, 34, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-36.5, 32, Math.toRadians(0))) //38.5, 34
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
@@ -56,7 +56,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                 })
                 .waitSeconds(1.5)
                 //go back out
-                .lineToLinearHeading(new Pose2d(-44, 34, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-44, 32, Math.toRadians(0)))
                 //store tail while moving away
                 .lineToLinearHeading(new Pose2d(-36.75, 58.5, Math.toRadians(0)))
                 .addTemporalMarker(.5, () -> { // Can call other parts of the robot

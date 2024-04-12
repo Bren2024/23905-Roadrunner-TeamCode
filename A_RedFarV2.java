@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous(name="Red Far V2",group = "AAA")
+@Autonomous(name="Red Far V2",group = "drive")
 public class A_RedFarV2 extends LinearOpMode {
 
     private SampleSwerveDrive drive;

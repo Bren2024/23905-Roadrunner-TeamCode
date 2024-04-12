@@ -41,7 +41,7 @@ public class A_BlueFarV1 extends LinearOpMode {
         ///////////////////LEFT//////////////////
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-45, 34, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-42, 32, Math.toRadians(0)))
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
@@ -71,7 +71,7 @@ public class A_BlueFarV1 extends LinearOpMode {
 
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
                  //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 45, 0), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, 42, 0), Math.toRadians(-30))
                 //.lineToLinearHeading(new Pose2d(48, 43.5, Math.toRadians(0)))
                 .build();
 
@@ -89,13 +89,13 @@ public class A_BlueFarV1 extends LinearOpMode {
         //////////////MID//////////////////////////
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-43, 44, Math.toRadians(-90))) //make Y 35??
+                .lineToLinearHeading(new Pose2d(-43, 35.5, Math.toRadians(-90))) //make Y 35??
 
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 //go to wall
-                .lineToLinearHeading(new Pose2d(-36, 58.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-36, 59.5, Math.toRadians(0)))
                 //go past truss
                 .splineToLinearHeading(new Pose2d(10, 58.5, 0), Math.toRadians(0))
                 .build();

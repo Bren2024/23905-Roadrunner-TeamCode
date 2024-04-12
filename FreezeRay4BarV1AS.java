@@ -191,15 +191,43 @@ public class FreezeRay4BarV1AS {
             //dropPixel();
             //glLastControlPress=System.currentTimeMillis();
         }
-        if (opMode.gamepad2.right_stick_y > (0.67)) {
-            mtrFreezeRayRight.setPower(-0.3);
-            mtrFreezeRayLeft.setPower(-0.3);
+        if ((opMode.gamepad2.right_stick_y > (0.4))&&  //stick back
+                (opMode.gamepad2.right_stick_x > (-0.4))&&
+                (opMode.gamepad2.right_stick_x < (0.4))) {
+            mtrFreezeRayRight.setPower(-0.5);
+            mtrFreezeRayLeft.setPower(-0.5);
         }
-        if (opMode.gamepad2.right_stick_y < (-0.67)) {
-            mtrFreezeRayRight.setPower(0.3);
-            mtrFreezeRayLeft.setPower(0.3);
+        else if ((opMode.gamepad2.right_stick_y < (-0.4)) &&  //stick forward
+                (opMode.gamepad2.right_stick_x > (-0.4))&&
+                (opMode.gamepad2.right_stick_x < (0.4))) {
+            mtrFreezeRayRight.setPower(0.75);
+            mtrFreezeRayLeft.setPower(0.75);
         }
-       
+        else if ((opMode.gamepad2.right_stick_x < (-0.4)) &&  //stick left
+                (opMode.gamepad2.right_stick_y > (0.4))) {   //and back
+            mtrFreezeRayLeft.setPower(-0.5);
+            mtrFreezeRayRight.setPower(0);
+        }
+        else if ((opMode.gamepad2.right_stick_x > (0.4)) &&  //stick right
+                (opMode.gamepad2.right_stick_y > (0.4))) {   //and back
+            mtrFreezeRayRight.setPower(-0.5);
+            mtrFreezeRayLeft.setPower(0);
+
+        }
+        else if ((opMode.gamepad2.right_stick_x < (-0.4)) &&  //stick left
+                (opMode.gamepad2.right_stick_y < (-0.4))) {   //and  forward
+            mtrFreezeRayLeft.setPower(0.75);
+            mtrFreezeRayRight.setPower(0);
+        }
+        else if ((opMode.gamepad2.right_stick_x > (0.4)) &&  //stick right
+                (opMode.gamepad2.right_stick_y < (-0.4))){   //and forward
+            mtrFreezeRayRight.setPower(0.75);
+            mtrFreezeRayLeft.setPower(0);
+        } else {
+            mtrFreezeRayLeft.setPower(0);
+            mtrFreezeRayRight.setPower(0);
+        }
+
         return;
     }
     
@@ -314,7 +342,7 @@ public class FreezeRay4BarV1AS {
                 mtrFreezeRayLeft.setPower(RAY_PWR);
                 mtrFreezeRayRight.setPower(RAY_PWR);
             } else if(gnRayPosReq==RAY_POS_UNHOLSTER) {//currently unholstered, so go to POS1
-                    
+
                 unholsterFreezeRay();
                 gnRayPosReq=RAY_POS_ONE;
                 gbRayAuto=true;    
@@ -766,6 +794,43 @@ public class FreezeRay4BarV1AS {
 //        }
         srvoTrigger.setPosition(TRIGGER_CLOSE);
     }
+    public void autonRaiseWeapon(LinearOpMode linopMode) {
+        //setup motors
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mtrFreezeRayLeft.setTargetPosition(RAY_POS_AUTO);
+        mtrFreezeRayRight.setTargetPosition(RAY_POS_AUTO);
+        mtrFreezeRayLeft.setPower(RAY_PWR);
+        mtrFreezeRayRight.setPower(RAY_PWR);
+    }
+    public void autonAimWeapon(LinearOpMode linopMode, double dBipodLeftPos,
+                               double dBipodRightPos){
+        srvoBipodLeft.setPosition(BIPOD_LEFT_NEUTRAL);
+        srvoBipodRight.setPosition(BIPOD_RIGHT_NEUTRAL);
+        srvoBipodLeft.setPosition(dBipodLeftPos);
+        srvoBipodRight.setPosition(dBipodRightPos);
+    }
+    public void autonShoot(LinearOpMode linopMode){
+        srvoTrigger.setPosition(TRIGGER_OPEN);
+    }
+    public void autonMakeWeaponSafe(LinearOpMode linopMode){
+        srvoTrigger.setPosition(TRIGGER_CLOSE);
+        srvoBipodLeft.setPosition(BIPOD_LEFT_NEUTRAL);
+        srvoBipodRight.setPosition(BIPOD_RIGHT_NEUTRAL);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mtrFreezeRayLeft.setTargetPosition(0);
+        mtrFreezeRayRight.setTargetPosition(0);
+        mtrFreezeRayLeft.setPower(RAY_PWR/2);
+        mtrFreezeRayRight.setPower(RAY_PWR/2);
+    }
+
     /*
     private boolean chkElevManual(OpMode opMode) {
         if(gbJetManual&&!(mtrJetLeft.isBusy())&&!(mtrJetRight.isBusy())) {

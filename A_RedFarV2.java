@@ -51,9 +51,9 @@ public class A_RedFarV2 extends LinearOpMode {
 
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
                 //go past truss
-                .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                 //go to backdrop
-                 .lineToLinearHeading(new Pose2d(50,-29, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(0, -58.5), Math.toRadians(0))
+                //go to backdrop
+                .splineToConstantHeading(new Vector2d(51.5, -29), Math.toRadians(45))
                 .build();
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
@@ -65,9 +65,9 @@ public class A_RedFarV2 extends LinearOpMode {
                 //go to wall
                 .lineToLinearHeading(new Pose2d(-42.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 //go past truss
-                .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+                .splineToConstantHeading(new Vector2d(0, -58.5), Math.toRadians(0))
                 //go to backdrop
-                .lineToLinearHeading(new Pose2d(50,-34, Math.toRadians(0)))
+                .splineToConstantHeading(new Vector2d(50, -34), Math.toRadians(30))
                 .build();
 
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
@@ -146,7 +146,7 @@ public class A_RedFarV2 extends LinearOpMode {
         }
 
         Trajectory moveToPark = drive.trajectoryBuilder(drive.getPoseEstimate())
-             .strafeTo(new Vector2d(50, -12))
+                .strafeTo(new Vector2d(50, -12))
                 .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
         freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);//.472, .524
 

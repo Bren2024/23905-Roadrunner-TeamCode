@@ -27,6 +27,7 @@ public class SwerveModule {
     //EXPERIMENTAL FEATURES
     public static boolean WAIT_FOR_TARGET = true;
     public static boolean[] waitingForTarget = new boolean[4];
+    public static double[] errors = new double[4];
 
     public static double ALLOWED_COS_ERROR = Math.toRadians(2);
 
@@ -73,13 +74,6 @@ public class SwerveModule {
         id = idNum;
     }
 
-    public void update() {
-        if (WAIT_FOR_TARGET)
-            finishedTurning();
-        else
-            waitingForTarget[id] = false;
-    }
-
     public void setDirection(DcMotorSimple.Direction direction) {  motor.setDirection(direction);  }
 
     /**
@@ -95,7 +89,7 @@ public class SwerveModule {
      * @return Module's current rotation in radians
      */
     public double getModuleRotation() {
-        return -Math.toRadians((encoder.getVoltage() * 122.1) - 202.6); // Equation for Voltage to Degrees interpolated from AirShip code
+        return -Math.toRadians((encoder.getVoltage() * 121.8) - 202); // Equation for Voltage to Degrees interpolated from AirShip code
     }
 
     public double getEncoderVoltage() {
@@ -133,12 +127,13 @@ public class SwerveModule {
         targetPower = power;
         //target check
         double error = getTargetRotation()-getModuleRotation();
-//        if(WAIT_FOR_TARGET && waitingForTarget) {
-//            power *= Math.cos(Range.clip(error, -Math.PI / 2, Math.PI / 2));
-//        }
-        if(waitingForTarget[0] || waitingForTarget[1] || waitingForTarget[2] || waitingForTarget[3]) {
-            power = 0;
+        errors[id] = error;
+        if(WAIT_FOR_TARGET && isWithinAllowedError()) {
+            power *= Math.cos(Range.clip(Math.max(Math.max(errors[0], errors[1]), Math.max(errors[2], errors[3])), -Math.PI / 2, Math.PI / 2));
         }
+//        if(waitingForTarget[0] || waitingForTarget[1] || waitingForTarget[2] || waitingForTarget[3]) {
+//            power = 0;
+//        }
         lastMotorPower = power;
         //flip check
         if(MOTOR_FLIPPING) power*=flipModifier();
@@ -146,10 +141,10 @@ public class SwerveModule {
         motor.setPower(power);
     }
 
-    public boolean isWithinAllowedError(){
-        double error = encoder.getVoltage();
-        return error < ALLOWED_COS_ERROR || error > 2*Math.PI - ALLOWED_COS_ERROR;
-    }
+//    public boolean isWithinAllowedError(){
+//        double error = encoder.getVoltage();
+//        return error < ALLOWED_COS_ERROR || error > 2*Math.PI - ALLOWED_COS_ERROR;
+//    }
 
     public void setServoPosition(double position) {
         servo.setPosition(position);
@@ -169,7 +164,7 @@ public class SwerveModule {
             if (current - target > Math.PI) target += (2 * Math.PI);
             else if (target - current > Math.PI) target -= (2 * Math.PI);
 
-            normTarget = target;
+            normTarget = target; //For Telemetry
 
             //flip target
             wheelFlipped = (Math.abs(current - target) > (Math.PI / 2 - flipModifier()*FLIP_BIAS))
@@ -199,9 +194,8 @@ public class SwerveModule {
     /**
      * Check if module has finished rotating, and set variable accordingly.
      */
-    public void finishedTurning() {
+    public boolean isWithinAllowedError() {
         double target = getTargetRotation();
-        // double targetVolts = 0.008639*targetDeg + 1.631;
 
         //get voltage of servos
         double servoPosition = getModuleRotation();
@@ -212,6 +206,10 @@ public class SwerveModule {
         else {
             waitingForTarget[id] = true;
         }
+        if (waitingForTarget[0] || waitingForTarget[1] || waitingForTarget[2] || waitingForTarget[3]){
+            return false;
+        }
+        return true;
     }
 
 

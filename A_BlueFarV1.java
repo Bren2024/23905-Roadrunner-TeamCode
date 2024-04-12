@@ -45,7 +45,6 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
-
                 .lineToLinearHeading(new Pose2d(-38.5, 34, Math.toRadians(0)))
                 .build();
 

@@ -70,7 +70,7 @@ public class A_BlueFarV1 extends LinearOpMode {
 
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
                  //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 42, 0), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(-30))
                 //.lineToLinearHeading(new Pose2d(48, 43.5, Math.toRadians(0)))
                 .build();
 

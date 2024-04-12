@@ -84,18 +84,18 @@ public class A_RedNearV3 extends LinearOpMode {
 
         if (nPropPos == goggles2.PROP_LEFT) {
             drive.followTrajectorySequence(leftTraj);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj.end(), 5, 5));
+            drive.followTrajectory(buildCorrectionTraj(leftTraj.end(), 5, 5));
         }
         else if (nPropPos == goggles2.PROP_MID) {
             drive.followTrajectorySequence(midTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(midTraj2);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj2.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj2.end(), 10, 10));
         }
         else {
             drive.followTrajectorySequence(rightTraj);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj.end(), 5, 5));
+            drive.followTrajectory(buildCorrectionTraj(rightTraj.end(), 5, 5));
         }
 
 //        Trajectory moveToPark = drive.trajectoryBuilder(chosenTraj.end())
@@ -112,13 +112,20 @@ public class A_RedNearV3 extends LinearOpMode {
         drive.followTrajectory(returnBack);
     }
 
-    private Trajectory buildCorrectionTrajectory(Pose2d pose) {
+    private Trajectory buildCorrectionTraj(Pose2d pose) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(pose)
                 .build();
         return correction;
     }
-    private Trajectory buildCorrectionTrajectory(Pose2d pose, double maxVel, double maxAccel) {
+    /**
+     * Creates a trajectory that strafes from current estimated position to target position
+     * @param pose
+     * @param maxVel
+     * @param maxAccel
+     * @return
+     */
+    private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

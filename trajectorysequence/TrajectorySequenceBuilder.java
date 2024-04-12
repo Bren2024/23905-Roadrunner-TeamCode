@@ -19,6 +19,8 @@ import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAcceleration
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.util.Angle;
 
+import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.CorrectionSegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TrajectorySegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TurnSegment;
@@ -387,7 +389,7 @@ public class TrajectorySequenceBuilder {
         return this.addTemporalMarker(currentDuration, callback);
     }
 
-    public TrajectorySequenceBuilder UNSTABLE_addTemporalMarkerOffset(double offset, MarkerCallback callback) {
+    public TrajectorySequenceBuilder addTemporalMarkerOffset(double offset, MarkerCallback callback) {
         return this.addTemporalMarker(currentDuration + offset, callback);
     }
 
@@ -462,6 +464,14 @@ public class TrajectorySequenceBuilder {
         sequenceSegments.add(new WaitSegment(lastPose, seconds, Collections.emptyList()));
 
         currentDuration += seconds;
+        return this;
+    }
+
+    public TrajectorySequenceBuilder correction(double timeout) {
+        pushPath();
+        sequenceSegments.add(new CorrectionSegment(lastPose, timeout, Collections.emptyList()));
+
+        currentDuration += timeout;
         return this;
     }
 

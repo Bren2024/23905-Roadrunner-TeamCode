@@ -152,22 +152,22 @@ public class A_RedFarV3 extends LinearOpMode {
 
         if (nPropPos == goggles2.PROP_RIGHT) {
             drive.followTrajectorySequence(rightTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(rightTraj1.end(), 10, 10));
             //piranhatail.autonHFlickPixel(this,2200,2000);
             drive.followTrajectorySequence(rightTraj2);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj2.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(rightTraj2.end(), 10, 10));
         }
         else if (nPropPos == goggles2.PROP_MID) {
             //goto spikemark
             drive.followTrajectorySequence(midTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(midTraj2);
             //raise 4bar
             freezeray.autonRaiseWeapon(this);
             //go to backdrop
             drive.followTrajectorySequence(midTraj3);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj3.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj3.end(), 10, 10));
             //extend bipod
             freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
             //push into wall
@@ -178,14 +178,14 @@ public class A_RedFarV3 extends LinearOpMode {
         else {  //LEFT
             //goto spikemark
             drive.followTrajectorySequence(leftTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(leftTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(leftTraj2);
             //raise 4bar
             freezeray.autonRaiseWeapon(this);
             //go to backdrop
             drive.followTrajectorySequence(leftTraj3);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj3.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(leftTraj3.end(), 10, 10));
             //extend bipod
             freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
             //push into wall
@@ -212,14 +212,21 @@ public class A_RedFarV3 extends LinearOpMode {
         drive.followTrajectorySequence(returnBack);
     }
 
-    private Trajectory buildCorrectionTrajectory(Pose2d pose) {
+    private Trajectory buildCorrectionTraj(Pose2d pose) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(new Pose2d(-35, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
                 .lineToLinearHeading(pose)
                 .build();
         return correction;
     }
-    private Trajectory buildCorrectionTrajectory(Pose2d pose, double maxVel, double maxAccel) {
+    /**
+     * Creates a trajectory that strafes from current estimated position to target position
+     * @param pose
+     * @param maxVel
+     * @param maxAccel
+     * @return
+     */
+    private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous(name="Red Near V3",group = "drive")
+@Autonomous(name="Red Near V3",group = "AAA")
 public class A_RedNearV3 extends LinearOpMode {
 
     private SampleSwerveDrive drive;
@@ -72,17 +72,43 @@ public class A_RedNearV3 extends LinearOpMode {
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 .strafeTo(new Vector2d(18, -37))
+                .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,1500);
+                })
                 .lineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)))
+                .build();
+
+        TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
+                .addTemporalMarker(() -> {
+                    freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+                })
+                //release pixel
+                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                    freezeray.autonShoot(this);
+                })
+                .waitSeconds(1.5)
+                .back(6)
                 .build();
 
         TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(19,-46, Math.toRadians(60)))
-                .addTemporalMarker(() -> { // Can call other parts of the robot
+                //extend bipod
+                .addTemporalMarker(() -> {
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
-                .waitSeconds(2.5) //let pixel drop on floor
+                .waitSeconds(2.2)
                 .lineToLinearHeading(new Pose2d(24,-55, Math.toRadians(0)))
+                .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,1500);
+                })
                 .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
+                .addTemporalMarker(() -> {
+                    freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+                })
+                //release pixel
+                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                    freezeray.autonShoot(this);
+                })
                 .build();
 
         telemetry.addData(gstrClassName, "Initialized");
@@ -102,7 +128,7 @@ public class A_RedNearV3 extends LinearOpMode {
 
         if (nPropPos == goggles2.PROP_LEFT) {
             drive.followTrajectorySequence(leftTraj1);
-            drive.followTrajectorySequence(buildCorrectionTraj2(leftTraj1.end(), 10, 10)); // Use extra correction b/c very inaccurate
+            drive.followTrajectory(buildCorrectionTraj(leftTraj1.end(), 10, 10)); // Use extra correction b/c very inaccurate
             drive.followTrajectorySequence(leftTraj2);
             freezeray.autonMakeWeaponSafe(this);
         }
@@ -112,18 +138,19 @@ public class A_RedNearV3 extends LinearOpMode {
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(midTraj2);
             drive.followTrajectory(buildCorrectionTraj(midTraj2.end(), 10, 10));
+            drive.followTrajectorySequence(midTraj3);
             freezeray.autonMakeWeaponSafe(this);
         }
         else {
             drive.followTrajectorySequence(rightTraj);
             drive.followTrajectory(buildCorrectionTraj(rightTraj.end(), 10, 10));
+            freezeray.autonMakeWeaponSafe(this);
         }
 
 //        Trajectory moveToPark = drive.trajectoryBuilder(chosenTraj.end())
 //             .strafeTo(new Vector2d(48, -60))
 //                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
         //freezeray.autonShootPixel2(this,freezeray.RAY_POS_UNHOLSTER,0.472,0.528,0.59,2000,7000);
-        freezeray.autonShootPixel3(this,0.472,0.524,3000,10000);
 
 //        drive.followTrajectory(moveToPark);
         //TODO: COMMENT OUT BELOW WHEN DONE!!

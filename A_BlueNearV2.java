@@ -74,7 +74,7 @@ public class A_BlueNearV2 extends LinearOpMode {
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to spikemark
                 .lineToLinearHeading(new Pose2d(15, 34, Math.toRadians(-90)))
-                .correction(0.5)
+//                .correction(0.5)
                 .addTemporalMarker(() -> {
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
@@ -87,7 +87,7 @@ public class A_BlueNearV2 extends LinearOpMode {
                 })
                 //go to backdrop
                 .lineToLinearHeading(new Pose2d(53,33, Math.toRadians(0)))
-                .correction(1)
+//                .correction(1)
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
@@ -109,7 +109,7 @@ public class A_BlueNearV2 extends LinearOpMode {
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
                 //backup
-                .splineToSplineHeading(new Pose2d(16, 40, Math.toRadians(175)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(16, 40, Math.toRadians(-175)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     //raise 4bar
                     freezeray.autonRaiseWeaponHeight(this,1500);
@@ -117,6 +117,7 @@ public class A_BlueNearV2 extends LinearOpMode {
                 //move to backboard
                 .splineToSplineHeading(new Pose2d(51,31, Math.toRadians(0)), Math.toRadians(-15))
                 .build();
+
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
@@ -129,7 +130,6 @@ public class A_BlueNearV2 extends LinearOpMode {
                 //back away
                 .back(6)
                 .build();
-
 
 
         telemetry.addData(gstrClassName, "Initialized");

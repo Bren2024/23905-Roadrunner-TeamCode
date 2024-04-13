@@ -41,20 +41,18 @@ public class A_BlueFarV1 extends LinearOpMode {
         ///////////////////LEFT//////////////////
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-45, 32, Math.toRadians(0))) //-40
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
+                .lineToLinearHeading(new Pose2d(-45, 32, Math.toRadians(0))) //-40
                 .lineToLinearHeading(new Pose2d(-36.5, 32, Math.toRadians(0))) //38.5, 34
-                .build();
-
-        TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
+                .correction(0.5)
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_FLICK);
                     sleep(1000);
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 //go back out
                 .lineToLinearHeading(new Pose2d(-44, 32, Math.toRadians(0)))
                 //store tail while moving away
@@ -65,54 +63,61 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .waitSeconds(0.5)
                 //go past truss
                 //.lineToLinearHeading(new Pose2d(10, 58.5, Math.toRadians(0)))
-                .splineToLinearHeading(new Pose2d(02, 58.5, 0), Math.toRadians(0))
-                .build();
-
-        TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
-                 //go to backdrop
+                .splineToLinearHeading(new Pose2d(0, 58.5, 0), Math.toRadians(0))
+                .addTemporalMarker(() -> {
+                    //raise 4bar
+                    freezeray.autonRaiseWeapon(this);
+                })
+                //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(-30))
-                //.lineToLinearHeading(new Pose2d(48, 43.5, Math.toRadians(0)))
                 .build();
 
-        TrajectorySequence leftTraj4 = drive.trajectorySequenceBuilder(leftTraj3.end())
+        TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
+                //extend bipod
+                .addTemporalMarker(() -> {
+                    freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+                })
                 //release pixel
                 .addTemporalMarker(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
-                .waitSeconds(2)
+                .waitSeconds(1.5)
                 //back away
                 .lineToLinearHeading(new Pose2d(45, 45, Math.toRadians(0)))
-
                 .build();
+
+
 
         //////////////MID//////////////////////////
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
                 .lineToLinearHeading(new Pose2d(-43, 35.5, Math.toRadians(-90))) //make Y 35??
-
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 //go to wall
                 .lineToLinearHeading(new Pose2d(-36, 59.5, Math.toRadians(0)))
-                //go past truss
-                .splineToLinearHeading(new Pose2d(10, 58.5, 0), Math.toRadians(0))
+                //go to backdrop
+                .splineToLinearHeading(new Pose2d(0, 58.5, Math.toRadians(0)), Math.toRadians(0))
+                .addTemporalMarker(() -> {
+                    //raise 4bar
+                    freezeray.autonRaiseWeapon(this);
+                })
+                .splineToLinearHeading(new Pose2d(51, 40, Math.toRadians(0)), Math.toRadians(-30))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
-                //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 40, 0), Math.toRadians(-30))
-                .build();
-
-        TrajectorySequence midTraj4 = drive.trajectorySequenceBuilder(midTraj3.end())
+                //extend bipod
+                .addTemporalMarker(() -> {
+                    freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+                })
                 //release pixel
                 .addTemporalMarker(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
-                .waitSeconds(2)
+                .waitSeconds(1.5)
                 //back away
-                .lineToLinearHeading(new Pose2d(45, 40, Math.toRadians(0)))
-
+                .back(6)
                 .build();
 
 
@@ -120,31 +125,37 @@ public class A_BlueFarV1 extends LinearOpMode {
         ///////////////////RIGHT//////////////////
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-46.0, 44.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-51, 45, Math.toRadians(-90)))
                 .build();
+
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
                 //go to wall
-                .lineToLinearHeading(new Pose2d(-36.75, 58.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-36, 58.5, Math.toRadians(0)))
                 //go past truss
-                .splineToLinearHeading(new Pose2d(10, 58.5, 0), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(10, 58.5, Math.toRadians(0)), Math.toRadians(0))
+                .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeapon(this);
+                })
+                //go to backdrop
+                .splineToLinearHeading(new Pose2d(51, 32, Math.toRadians(0)), Math.toRadians(-30))
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
-                //go past truss
-                .lineToLinearHeading(new Pose2d(10.0, 58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                //go to backdrop
-                .lineToLinearHeading(new Pose2d(51,29, Math.toRadians(0)))
-                .build();
-        TrajectorySequence rightTraj4 = drive.trajectorySequenceBuilder(rightTraj3.end())
+                //extend bipod
+                .addTemporalMarker(() -> {
+                    freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+                })
                 //release pixel
-                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
+                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(2)
                 //back away
-                .lineToLinearHeading(new Pose2d(46, 29, Math.toRadians(0)))
-
+                .lineToLinearHeading(new Pose2d(45, 32, Math.toRadians(0)))
                 .build();
+
+
+
         telemetry.addData(gstrClassName, "Initialized");
         telemetry.update();
 
@@ -158,63 +169,41 @@ public class A_BlueFarV1 extends LinearOpMode {
         telemetry.update();
 
         if (nPropPos == goggles2.PROP_NONE) //pos is -1
-            nPropPos = goggles2.PROP_MID;
+            nPropPos = goggles2.PROP_RIGHT;
 
         if (nPropPos == goggles2.PROP_LEFT) {
             //get to spikemark and drop pixel
             drive.followTrajectorySequence(leftTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj1.end(), 5, 5));
-            //get to wall and past truss
-            drive.followTrajectorySequence(leftTraj2);
-            //raise 4bar
-            freezeray.autonRaiseWeapon(this);
+            drive.followTrajectory(buildCorrectionTraj(leftTraj1.end(), 10, 10));
             //go to backdrop
-            drive.followTrajectorySequence(leftTraj3);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj3.end(), 10, 10));
-            //extend bipod
-            freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
-            //push into wall
-            drive.followTrajectorySequence(leftTraj4);
+            drive.followTrajectorySequence(leftTraj2);
             freezeray.autonMakeWeaponSafe(this);
         }
         else if (nPropPos == goggles2.PROP_MID) {
             //go to line
             drive.followTrajectorySequence(midTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj1.end(), 10, 10));
             //drop pixel
             piranhatail.autonFlickPixel(this,2200,100);
-            //get to wall and get past truss
-            drive.followTrajectorySequence(midTraj2);
-            //raise 4bar
-            freezeray.autonRaiseWeapon(this);
             //go to backdrop
-            drive.followTrajectorySequence(midTraj3);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj3.end(), 10, 10));
-            //extend bipod
-            freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+            drive.followTrajectorySequence(midTraj2);
+            drive.followTrajectory(buildCorrectionTraj(midTraj2.end(), 10, 10));
             //push into wall
-            drive.followTrajectorySequence(midTraj4);
+            drive.followTrajectorySequence(midTraj3);
             freezeray.autonMakeWeaponSafe(this);
         }
         else { //PROP_RIGHT
             //go to line
             drive.followTrajectorySequence(rightTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(rightTraj1.end(), 10, 10));
             //drop pixel
             piranhatail.autonFlickPixel(this,2200,100);
-            //get to wall and get past truss
+            //get to wall and go to backdrop
             drive.followTrajectorySequence(rightTraj2);
-            //raise 4bar
-            freezeray.autonRaiseWeapon(this);
-            //go to backdrop
-            drive.followTrajectorySequence(rightTraj3);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj3.end(), 10, 10));
-            //extend bipod
-            freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
+            drive.followTrajectory(buildCorrectionTraj(rightTraj2.end(), 10, 10));
             //push into wall
-            drive.followTrajectorySequence(rightTraj4);
+            drive.followTrajectorySequence(rightTraj3);
             freezeray.autonMakeWeaponSafe(this);
-
 
         }
 
@@ -236,13 +225,20 @@ public class A_BlueFarV1 extends LinearOpMode {
         drive.followTrajectorySequence(returnBack);
     }
 
-    private Trajectory buildCorrectionTrajectory(Pose2d pose) {
+    private Trajectory buildCorrectionTraj(Pose2d pose) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(pose)
                 .build();
         return correction;
     }
-    private Trajectory buildCorrectionTrajectory(Pose2d pose, double maxVel, double maxAccel) {
+    /**
+     * Creates a trajectory that strafes from current estimated position to target position
+     * @param pose
+     * @param maxVel
+     * @param maxAccel
+     * @return
+     */
+    private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

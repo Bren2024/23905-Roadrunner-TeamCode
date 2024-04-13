@@ -191,39 +191,56 @@ public class FreezeRay4BarV1AS {
             //dropPixel();
             //glLastControlPress=System.currentTimeMillis();
         }
+        if ((opMode.gamepad2.right_stick_button)){
+            unholsterFreezeRay();//set servo first
+            gnRayPosReq=RAY_POS_HOLSTER;
+            gbRayAuto=true;
+            mtrFreezeRayRight.setTargetPosition(RAY_POS_HOLSTER);
+            mtrFreezeRayLeft.setTargetPosition(RAY_POS_HOLSTER);
+            mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            mtrFreezeRayLeft.setPower(RAY_PWR);
+            mtrFreezeRayRight.setPower(RAY_PWR);
+        }
         if ((opMode.gamepad2.right_stick_y > (0.4))&&  //stick back
                 (opMode.gamepad2.right_stick_x > (-0.4))&&
                 (opMode.gamepad2.right_stick_x < (0.4))) {
+            gbRayAuto=false;
             mtrFreezeRayRight.setPower(-0.5);
             mtrFreezeRayLeft.setPower(-0.5);
         }
         else if ((opMode.gamepad2.right_stick_y < (-0.4)) &&  //stick forward
                 (opMode.gamepad2.right_stick_x > (-0.4))&&
                 (opMode.gamepad2.right_stick_x < (0.4))) {
+            gbRayAuto=false;
             mtrFreezeRayRight.setPower(0.75);
             mtrFreezeRayLeft.setPower(0.75);
         }
         else if ((opMode.gamepad2.right_stick_x < (-0.4)) &&  //stick left
                 (opMode.gamepad2.right_stick_y > (0.4))) {   //and back
+            gbRayAuto=false;
             mtrFreezeRayLeft.setPower(-0.5);
             mtrFreezeRayRight.setPower(0);
         }
         else if ((opMode.gamepad2.right_stick_x > (0.4)) &&  //stick right
                 (opMode.gamepad2.right_stick_y > (0.4))) {   //and back
+            gbRayAuto=false;
             mtrFreezeRayRight.setPower(-0.5);
             mtrFreezeRayLeft.setPower(0);
 
         }
         else if ((opMode.gamepad2.right_stick_x < (-0.4)) &&  //stick left
                 (opMode.gamepad2.right_stick_y < (-0.4))) {   //and  forward
+            gbRayAuto=false;
             mtrFreezeRayLeft.setPower(0.75);
             mtrFreezeRayRight.setPower(0);
         }
         else if ((opMode.gamepad2.right_stick_x > (0.4)) &&  //stick right
                 (opMode.gamepad2.right_stick_y < (-0.4))){   //and forward
+            gbRayAuto=false;
             mtrFreezeRayRight.setPower(0.75);
             mtrFreezeRayLeft.setPower(0);
-        } else {
+        } else if ((gbRayAuto==false)){
             mtrFreezeRayLeft.setPower(0);
             mtrFreezeRayRight.setPower(0);
         }

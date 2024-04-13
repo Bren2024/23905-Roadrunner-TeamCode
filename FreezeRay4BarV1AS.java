@@ -84,7 +84,7 @@ public class FreezeRay4BarV1AS {
     public static int RAY_POS_ONE =2000;
     public static int RAY_POS_TWO = 2300;
     public static int RAY_POS_THREE = 2800;
-    public static int RAY_POS_AUTO = 1400; //height during auto?
+    public static int RAY_POS_AUTO = 1450; //height during auto?
 
     public static int RAY_POS_AUTO_LIFT = 1700;
 
@@ -821,6 +821,19 @@ public class FreezeRay4BarV1AS {
         mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mtrFreezeRayLeft.setTargetPosition(RAY_POS_AUTO);
         mtrFreezeRayRight.setTargetPosition(RAY_POS_AUTO);
+        mtrFreezeRayLeft.setPower(RAY_PWR);
+        mtrFreezeRayRight.setPower(RAY_PWR);
+    }
+    public void autonRaiseWeaponHeight(LinearOpMode linopMode, int nPos) {
+        //setup motors
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mtrFreezeRayLeft.setTargetPosition(nPos);
+        mtrFreezeRayRight.setTargetPosition(nPos);
         mtrFreezeRayLeft.setPower(RAY_PWR);
         mtrFreezeRayRight.setPower(RAY_PWR);
     }

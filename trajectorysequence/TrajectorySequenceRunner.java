@@ -252,6 +252,12 @@ public class TrajectorySequenceRunner {
                     fieldOverlay.setStrokeWidth(1);
                     fieldOverlay.setStroke(COLOR_INACTIVE_WAIT);
                     fieldOverlay.strokeCircle(pose.getX(), pose.getY(), 3);
+                } else if (segment instanceof CorrectionSegment) {
+                    Pose2d pose = segment.getStartPose();
+
+                    fieldOverlay.setStrokeWidth(1);
+                    fieldOverlay.setStroke(COLOR_INACTIVE_WAIT);
+                    fieldOverlay.strokeCircle(pose.getX(), pose.getY(), 3);
                 }
             }
         }
@@ -270,6 +276,12 @@ public class TrajectorySequenceRunner {
                 fieldOverlay.setFill(COLOR_ACTIVE_TURN);
                 fieldOverlay.fillCircle(pose.getX(), pose.getY(), 3);
             } else if (currentSegment instanceof WaitSegment) {
+                Pose2d pose = currentSegment.getStartPose();
+
+                fieldOverlay.setStrokeWidth(1);
+                fieldOverlay.setStroke(COLOR_ACTIVE_WAIT);
+                fieldOverlay.strokeCircle(pose.getX(), pose.getY(), 3);
+            } else if (currentSegment instanceof CorrectionSegment) {
                 Pose2d pose = currentSegment.getStartPose();
 
                 fieldOverlay.setStrokeWidth(1);

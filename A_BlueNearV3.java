@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous(name="Red Near V3",group = "AAA")
-public class A_RedNearV3 extends LinearOpMode {
+@Autonomous(name="Blue Near V3",group = "AAA")
+public class A_BlueNearV3 extends LinearOpMode {
 
     private SampleSwerveDrive drive;
     private Goggles2V3AS goggles2 = new Goggles2V3AS();
@@ -35,47 +35,41 @@ public class A_RedNearV3 extends LinearOpMode {
         freezeray.initialize(this);
         piranhatail.initialize(this,piranhatail.TAIL_INIT_AUTON);
 
-        Pose2d startPose = new Pose2d(11.25, -62.5, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(11.25, 62.5, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
-        TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(11,-36, Math.toRadians(180)))
-                .addTemporalMarker(() -> { // Can call other parts of the robot
+        TrajectorySequence leftTraj = drive.trajectorySequenceBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(19,46, Math.toRadians(-60)))
+                //extend bipod
+                .addTemporalMarker(() -> {
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
-                .waitSeconds(2.2) //let pixel drop on floor
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(16, -36, Math.toRadians(175)), Math.toRadians(0))
+                .waitSeconds(2.2)
+                .lineToLinearHeading(new Pose2d(24,55, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1500);
                 })
-                .splineToSplineHeading(new Pose2d(51,-29, Math.toRadians(0)), Math.toRadians(15))
-                .build();
-
-        TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
-                //extend bipod
+                .lineToLinearHeading(new Pose2d(50,42, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
+                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
-                .waitSeconds(1.5)
-                .back(6)
                 .build();
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(18, -34, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(18, 34, Math.toRadians(-90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
-                .strafeTo(new Vector2d(18, -37))
+                .strafeTo(new Vector2d(18, 37))
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1500);
                 })
-                .lineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,35, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
@@ -90,25 +84,31 @@ public class A_RedNearV3 extends LinearOpMode {
                 .back(6)
                 .build();
 
-        TrajectorySequence rightTraj = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(19,-46, Math.toRadians(60)))
-                //extend bipod
-                .addTemporalMarker(() -> {
+        TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(11,36, Math.toRadians(180)))
+                .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
-                .waitSeconds(2.2)
-                .lineToLinearHeading(new Pose2d(24,-55, Math.toRadians(0)))
+                .waitSeconds(2.2) //let pixel drop on floor
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(16, 36, Math.toRadians(-175)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1500);
                 })
-                .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
+                .splineToSplineHeading(new Pose2d(51,29, Math.toRadians(0)), Math.toRadians(-15))
+                .build();
+
+        TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
+                //extend bipod
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
+                .waitSeconds(1.5)
+                .back(6)
                 .build();
 
         telemetry.addData(gstrClassName, "Initialized");
@@ -127,9 +127,8 @@ public class A_RedNearV3 extends LinearOpMode {
             nPropPos = goggles2.PROP_RIGHT;
 
         if (nPropPos == goggles2.PROP_LEFT) {
-            drive.followTrajectorySequence(leftTraj1);
-            drive.followTrajectory(buildCorrectionTraj(leftTraj1.end(), 10, 10)); // Use extra correction b/c very inaccurate
-            drive.followTrajectorySequence(leftTraj2);
+            drive.followTrajectorySequence(leftTraj);
+            drive.followTrajectory(buildCorrectionTraj(leftTraj.end(), 10, 10));
             freezeray.autonMakeWeaponSafe(this);
         }
         else if (nPropPos == goggles2.PROP_MID) {
@@ -142,8 +141,9 @@ public class A_RedNearV3 extends LinearOpMode {
             freezeray.autonMakeWeaponSafe(this);
         }
         else {
-            drive.followTrajectorySequence(rightTraj);
-            drive.followTrajectory(buildCorrectionTraj(rightTraj.end(), 10, 10));
+            drive.followTrajectorySequence(rightTraj1);
+            drive.followTrajectory(buildCorrectionTraj(rightTraj1.end(), 10, 10)); // Use extra correction b/c very inaccurate
+            drive.followTrajectorySequence(rightTraj2);
             freezeray.autonMakeWeaponSafe(this);
         }
 

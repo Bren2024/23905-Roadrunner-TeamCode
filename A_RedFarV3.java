@@ -75,14 +75,14 @@ public class A_RedFarV3 extends LinearOpMode {
         ////////////////////////MID/////////////////////
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-39.5, -33.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-39.5, -36, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 //go to wall
                 .lineToLinearHeading(new Pose2d(-36.75, -58.5, Math.toRadians(0)))
                 //go past truss
-                .splineToLinearHeading(new Pose2d(0, -58.5, 0), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(0, -58.5, Math.toRadians(0)), Math.toRadians(0))
                 //raise 4bar
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1300);

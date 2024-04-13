@@ -48,9 +48,9 @@ public class A_RedNearV3 extends LinearOpMode {
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(16, -36, Math.toRadians(175)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1500);
+                    freezeray.autonRaiseWeaponHeight(this,1575);
                 })
-                .splineToSplineHeading(new Pose2d(51,-29, Math.toRadians(0)), Math.toRadians(15))
+                .splineToSplineHeading(new Pose2d(50,-26, Math.toRadians(0)), Math.toRadians(15))
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
@@ -73,9 +73,9 @@ public class A_RedNearV3 extends LinearOpMode {
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 .strafeTo(new Vector2d(18, -37))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1500);
+                    freezeray.autonRaiseWeaponHeight(this,1575);
                 })
-                .lineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,-32, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
@@ -99,12 +99,13 @@ public class A_RedNearV3 extends LinearOpMode {
                 .waitSeconds(2.2)
                 .lineToLinearHeading(new Pose2d(24,-55, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1500);
+                    freezeray.autonRaiseWeaponHeight(this,1575);
                 })
-                .lineToLinearHeading(new Pose2d(50,-42, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(50,-41, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
+                .waitSeconds(1.5)
                 //release pixel
                 .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);

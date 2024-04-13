@@ -129,7 +129,7 @@ public class SwerveModule {
         double error = getTargetRotation()-getModuleRotation();
         errors[id] = error;
         if(WAIT_FOR_TARGET && isWithinAllowedError()) {
-            power *= 1-Math.sin(Range.clip(Math.max(Math.max(errors[0], errors[1]), Math.max(errors[2], errors[3])), -Math.PI / 2, Math.PI / 2));
+            power *= 1-Math.abs(Math.sin(Range.clip(Math.max(Math.max(errors[0], errors[1]), Math.max(errors[2], errors[3])), -Math.PI/2, Math.PI/2)));
         }
 //        if(waitingForTarget[0] || waitingForTarget[1] || waitingForTarget[2] || waitingForTarget[3]) {
 //            power = 0;

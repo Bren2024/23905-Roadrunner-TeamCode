@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
 
 @Autonomous(name="BlueFarV1",group = "AAA")
@@ -46,7 +47,9 @@ public class A_BlueFarV1 extends LinearOpMode {
                 })
                 .lineToLinearHeading(new Pose2d(-45, 32, Math.toRadians(0))) //-40
                 .lineToLinearHeading(new Pose2d(-36.5, 32, Math.toRadians(0))) //38.5, 34
-                .correction(0.5)
+                .build();
+
+        TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_FLICK);
                     sleep(1000);
@@ -57,22 +60,21 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-44, 32, Math.toRadians(0)))
                 //store tail while moving away
                 .lineToLinearHeading(new Pose2d(-36.75, 58.5, Math.toRadians(0)))
-                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
+                .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_BETWEEN_LEGS);
                 })
                 .waitSeconds(0.5)
                 //go past truss
-                //.lineToLinearHeading(new Pose2d(10, 58.5, Math.toRadians(0)))
                 .splineToLinearHeading(new Pose2d(0, 58.5, 0), Math.toRadians(0))
                 .addTemporalMarker(() -> {
-                    //raise 4bar
-                    freezeray.autonRaiseWeapon(this);
+                    // raise 4bar
+                    freezeray.autonRaiseWeaponHeight(this,1500);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(-30))
                 .build();
 
-        TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
+        TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj1.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
@@ -87,7 +89,6 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .build();
 
 
-
         //////////////MID//////////////////////////
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
@@ -100,8 +101,8 @@ public class A_BlueFarV1 extends LinearOpMode {
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(0, 58.5, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
-                    //raise 4bar
-                    freezeray.autonRaiseWeapon(this);
+                    // raise 4bar
+                    freezeray.autonRaiseWeaponHeight(this,1500);
                 })
                 .splineToLinearHeading(new Pose2d(51, 40, Math.toRadians(0)), Math.toRadians(-30))
                 .build();
@@ -111,8 +112,8 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
-                //release pixel
                 .addTemporalMarker(.5, () -> { // Can call other parts of the robot
+                    //release pixel
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1.5)
@@ -134,7 +135,8 @@ public class A_BlueFarV1 extends LinearOpMode {
                 //go past truss
                 .splineToLinearHeading(new Pose2d(10, 58.5, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeapon(this);
+                    // raise 4bar
+                    freezeray.autonRaiseWeaponHeight(this,1500);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 32, Math.toRadians(0)), Math.toRadians(-30))
@@ -175,8 +177,9 @@ public class A_BlueFarV1 extends LinearOpMode {
             //get to spikemark and drop pixel
             drive.followTrajectorySequence(leftTraj1);
             drive.followTrajectory(buildCorrectionTraj(leftTraj1.end(), 10, 10));
-            //go to backdrop
             drive.followTrajectorySequence(leftTraj2);
+            drive.followTrajectory(buildCorrectionTraj(leftTraj2.end(), 10, 10));
+            drive.followTrajectorySequence(leftTraj3);
             freezeray.autonMakeWeaponSafe(this);
         }
         else if (nPropPos == goggles2.PROP_MID) {

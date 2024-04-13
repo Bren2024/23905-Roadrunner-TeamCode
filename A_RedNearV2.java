@@ -142,12 +142,10 @@ public class A_RedNearV2 extends LinearOpMode {
      * @param maxAccel
      * @return Built trajectory
      */
-    private Trajectory buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
-        Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
+    private TrajectorySequence buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
+        TrajectorySequence correction = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 // Turn to correct
-                .lineToLinearHeading(new Pose2d(drive.getPoseEstimate().getX()+0.01, drive.getPoseEstimate().getY()+0.01, pose.getHeading()),
-                        SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleSwerveDrive.getAccelerationConstraint(maxAccel))
+                .turn(pose.getHeading()-drive.getPoseEstimate().getHeading())
                 // Strafe to correct
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

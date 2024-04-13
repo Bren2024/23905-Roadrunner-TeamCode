@@ -59,6 +59,7 @@ public class A_RedFarV3 extends LinearOpMode {
                 .build();
 
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
+                //extend bipod
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
@@ -91,6 +92,7 @@ public class A_RedFarV3 extends LinearOpMode {
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
+                //extend bipod
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
@@ -107,13 +109,16 @@ public class A_RedFarV3 extends LinearOpMode {
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
                 .lineToLinearHeading(new Pose2d(-45, -32, Math.toRadians(0))) //-40
+                //extend tail halfway
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
+                // align for tail drop
                 .lineToLinearHeading(new Pose2d(-36.5, -32, Math.toRadians(0))) //38.5, 34
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
+                //drop pixel
                 .addTemporalMarker(() -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_FLICK);
                     sleep(1000);
@@ -140,6 +145,7 @@ public class A_RedFarV3 extends LinearOpMode {
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
+                //extend bipod
                 .addTemporalMarker(() -> {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
@@ -169,7 +175,7 @@ public class A_RedFarV3 extends LinearOpMode {
             nPropPos = goggles2.PROP_MID;
 
         if (nPropPos == goggles2.PROP_RIGHT) {
-            //get to spikemark and drop pixel
+            //get to spike mark and drop pixel
             drive.followTrajectorySequence(rightTraj1);
             drive.followTrajectory(buildCorrectionTrajectory(rightTraj1.end(), 10, 10));
             drive.followTrajectorySequence(rightTraj2);
@@ -178,7 +184,7 @@ public class A_RedFarV3 extends LinearOpMode {
             freezeray.autonMakeWeaponSafe(this);
         }
         else if (nPropPos == goggles2.PROP_MID) {
-            //goto spikemark
+            //goto spike mark
             drive.followTrajectorySequence(midTraj1);
             drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
@@ -189,7 +195,7 @@ public class A_RedFarV3 extends LinearOpMode {
 
         }
         else {  //LEFT
-            //goto spikemark
+            //go to spike mark
             drive.followTrajectorySequence(leftTraj1);
             drive.followTrajectory(buildCorrectionTrajectory(leftTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);

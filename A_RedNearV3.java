@@ -148,17 +148,17 @@ public class A_RedNearV3 extends LinearOpMode {
             freezeray.autonMakeWeaponSafe(this);
         }
 
-//        Trajectory moveToPark = drive.trajectoryBuilder(chosenTraj.end())
-//             .strafeTo(new Vector2d(48, -60))
-//                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
-        //freezeray.autonShootPixel2(this,freezeray.RAY_POS_UNHOLSTER,0.472,0.528,0.59,2000,7000);
+        Trajectory moveToPark = drive.trajectoryBuilder(drive.getPoseEstimate())
+                .strafeTo(new Vector2d(48, -60))
+                .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
 
-//        drive.followTrajectory(moveToPark);
+        drive.followTrajectory(moveToPark);
+
         //TODO: COMMENT OUT BELOW WHEN DONE!!
-        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(startPose)
-                .build();
-        drive.followTrajectory(returnBack);
+//        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+//                .lineToLinearHeading(startPose)
+//                .build();
+//        drive.followTrajectory(returnBack);
     }
 
     /**

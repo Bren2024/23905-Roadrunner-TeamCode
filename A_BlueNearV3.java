@@ -21,6 +21,8 @@ public class A_BlueNearV3 extends LinearOpMode {
     private FreezeRay4BarV1AS freezeray = new FreezeRay4BarV1AS();
     private String gstrClassName=this.getClass().getSimpleName();
 
+    private final int FOUR_BAR_HEIGHT = 1350;
+
     @Override
     public void runOpMode() {
         int nTagToFind=-1;
@@ -48,10 +50,11 @@ public class A_BlueNearV3 extends LinearOpMode {
                 .waitSeconds(2.2)
                 .lineToLinearHeading(new Pose2d(24,55, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1450);
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT);
                 })
                 .lineToLinearHeading(new Pose2d(49,42, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT); //1575
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 .waitSeconds(1.5)
@@ -68,13 +71,14 @@ public class A_BlueNearV3 extends LinearOpMode {
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 .strafeTo(new Vector2d(18, 37))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1575);
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT); //1575
                 })
-                .lineToLinearHeading(new Pose2d(50,36, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51,38, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
                 .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT); //1575
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -94,7 +98,7 @@ public class A_BlueNearV3 extends LinearOpMode {
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(16, 39, Math.toRadians(-175)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1575);
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT);
                 })
                 .splineToSplineHeading(new Pose2d(51,29, Math.toRadians(0)), Math.toRadians(-15))
                 .build();
@@ -102,6 +106,7 @@ public class A_BlueNearV3 extends LinearOpMode {
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT); //1575
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -125,7 +130,7 @@ public class A_BlueNearV3 extends LinearOpMode {
         telemetry.update();
 
         if (nPropPos == goggles2.PROP_NONE)
-            nPropPos = goggles2.PROP_RIGHT;
+            nPropPos = goggles2.PROP_LEFT;
 
         if (nPropPos == goggles2.PROP_LEFT) {
             drive.followTrajectorySequence(leftTraj);
@@ -143,7 +148,7 @@ public class A_BlueNearV3 extends LinearOpMode {
         }
         else {
             drive.followTrajectorySequence(rightTraj1);
-            drive.followTrajectory(buildCorrectionTraj(rightTraj1.end(), 10, 10)); // Use extra correction b/c very inaccurate
+            drive.followTrajectorySequence(buildCorrectionTraj2(rightTraj1.end(), 10, 10)); // Use extra correction b/c very inaccurate
             drive.followTrajectorySequence(rightTraj2);
             freezeray.autonMakeWeaponSafe(this);
         }
@@ -152,7 +157,7 @@ public class A_BlueNearV3 extends LinearOpMode {
                 .strafeTo(new Vector2d(48, 60))
                 .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
         drive.followTrajectory(moveToPark);
-        
+
         //TODO: COMMENT OUT BELOW WHEN DONE!!
 //        Trajectory returnBack = drive.trajectoryBuilder(drive.getPoseEstimate())
 //                .lineToLinearHeading(startPose)

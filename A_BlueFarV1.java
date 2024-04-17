@@ -22,6 +22,8 @@ public class A_BlueFarV1 extends LinearOpMode {
     private FreezeRay4BarV1AS freezeray = new FreezeRay4BarV1AS();
     private String gstrClassName=this.getClass().getSimpleName();
 
+    private final int FOUR_BAR_HEIGHT = 1500;
+
     @Override
     public void runOpMode() {
         int nTagToFind=-1;
@@ -69,7 +71,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(7, 58.5, 0), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     // raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1500);
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(-30))
@@ -103,7 +105,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(7, 58.5, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     // raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1450);
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 38, Math.toRadians(0)), Math.toRadians(-30))
@@ -138,7 +140,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(7, 58.5, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     // raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1500);
+                    freezeray.autonRaiseWeaponHeight(this,FOUR_BAR_HEIGHT);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 32, Math.toRadians(0)), Math.toRadians(-30))

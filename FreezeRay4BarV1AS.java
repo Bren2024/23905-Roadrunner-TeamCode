@@ -826,8 +826,8 @@ public class FreezeRay4BarV1AS {
     }
     public void autonRaiseWeaponHeight(LinearOpMode linopMode, int nPos) {
         //setup motors
-        mtrFreezeRayLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mtrFreezeRayRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        mtrFreezeRayLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        mtrFreezeRayRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);

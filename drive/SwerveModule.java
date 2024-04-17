@@ -124,7 +124,6 @@ public class SwerveModule {
     }
     double lastMotorPower = 0;
     public void setMotorPower(double power) {
-        targetPower = power;
         //target check
         double error = getTargetRotation()-getModuleRotation();
         errors[id] = error;
@@ -182,10 +181,10 @@ public class SwerveModule {
                 }
             }
         }
-        // To reset servo position once not moving
-        if (targetPower == 0) {
-            target = 0;
-        }
+//        // To reset servo position once not moving
+//        if (lastMotorPower < MIN_MOTOR_TO_TURN) {
+//            target = 0;
+//        }
         double targetDeg = Math.toDegrees(target);
         servo.setPosition(degToPos(targetDeg));
         targetRotation = target;

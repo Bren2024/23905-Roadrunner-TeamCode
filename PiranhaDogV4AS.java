@@ -50,7 +50,7 @@ public class PiranhaDogV4AS {
     // private Servo srvoTongue;
 
     //motor constants
-    private static Double TEETH_EAT_PWR=-.85d, TEETH_PUKE_PWR=.5d, TEETH_REST_PWR = 0d;
+    private static Double TEETH_EAT_PWR=-.85d, TEETH_PUKE_PWR=.85d, TEETH_REST_PWR = 0d;
 
 
     //goBildaServer

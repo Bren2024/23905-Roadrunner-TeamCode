@@ -124,15 +124,22 @@ public class SwerveModule {
     }
     double lastMotorPower = 0;
     public void setMotorPower(double power) {
-        //target check
+        //set current module error in shared array
         double error = getTargetRotation()-getModuleRotation();
         errors[id] = error;
-        double maxError = Math.max(Math.max(errors[0], errors[1]), Math.max(errors[2], errors[3]));
-        double minError = Math.min(Math.min(errors[0], errors[1]), Math.min(errors[2], errors[3]));
-        double maxAbsError = Math.abs(maxError) > Math.abs(minError) ? maxError : minError;
+
+        // Find minimum power multiplier among all modules
+        double minPowerMult = 1;
+        for (double e : errors) {
+            double powerMult = 1 - Math.abs(Math.sin(Range.clip(e, -Math.PI, Math.PI)));
+            if (powerMult < minPowerMult) {
+                minPowerMult = powerMult;
+            }
+        }
+
         if(WAIT_FOR_TARGET && !isWithinAllowedError()) {
-            power *= 1-Math.abs(Math.sin(Range.clip(maxAbsError, -Math.PI, Math.PI)));
-            if (Math.abs(maxAbsError) > Math.PI/2) {
+            power *= minPowerMult;
+            if (Math.abs(error) > Math.PI/2) {
                 power *= -1;
             }
         }
@@ -175,8 +182,8 @@ public class SwerveModule {
             wheelFlipped = (Math.abs(current - target) > (Math.PI / 2 - flipModifier()*FLIP_BIAS))
                     || (Math.abs(target) > 3); // 3: Maximum number of radians the module can turn
 
-            // Unflip target if flipped target is over 2.9
-            if (wheelFlipped && Math.abs(target) < Math.PI - 2.9) {
+            // Unflip target if flipped target is over 3 rad
+            if (wheelFlipped && Math.abs(target) < Math.PI - 3) {
                 wheelFlipped = false;
             }
 

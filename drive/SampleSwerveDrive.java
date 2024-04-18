@@ -43,7 +43,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.*;
  */
 @Config
 public class SampleSwerveDrive extends SwerveDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3.5, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(2, 0, 0);
 
     public static double VX_WEIGHT = 1;

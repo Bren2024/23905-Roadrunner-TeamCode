@@ -92,7 +92,7 @@ public class FreezeRay4BarV1AS {
     private static double BIPOD_LEFT_NEUTRAL = .504d;
     private static double BIPOD_RIGHT_NEUTRAL = .499d; //.498 too high, .504 too low, .501 too low
     private static double TRIGGER_NEUTRAL = .5;
-    private static double TRIGGER_CLOSE = TRIGGER_NEUTRAL-.24; //holster +.003
+    private static double TRIGGER_CLOSE = TRIGGER_NEUTRAL+.02; //holster +.003 , -.24, -.2, -.15, -.05, +.1, +.05, +.02
     private static double TRIGGER_OPEN=TRIGGER_NEUTRAL+.2; //cock +.027
     
 

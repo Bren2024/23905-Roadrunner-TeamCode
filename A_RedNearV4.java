@@ -45,9 +45,8 @@ public class A_RedNearV4 extends LinearOpMode {
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
                 .waitSeconds(2.2) //let pixel drop on floor
-                .setReversed(true)
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1400);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 .lineToLinearHeading(new Pose2d(50,-31, Math.toRadians(0)))
                 .build();
@@ -55,44 +54,44 @@ public class A_RedNearV4 extends LinearOpMode {
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1400);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
                 .addTemporalMarker(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 .back(6)
                 .build();
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(18, -36, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(20, -35.5, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
-                .strafeTo(new Vector2d(18, -37))
+                .strafeTo(new Vector2d(20, -40))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1350);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 .lineToLinearHeading(new Pose2d(50,-35.5, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1350);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
                 .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 .back(6)
                 .build();
 
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(18,-44, Math.toRadians(60)))
+                .lineToLinearHeading(new Pose2d(21,-45, Math.toRadians(60)))
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
@@ -101,23 +100,27 @@ public class A_RedNearV4 extends LinearOpMode {
                     piranhatail.autonFlickPixel(this,2200,100);
                 })
                 .waitSeconds(2.2)
+                .back(3)
                 .lineToLinearHeading(new Pose2d(24,-58, Math.toRadians(0)))
+                //raise fourbar
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
-                .lineToLinearHeading(new Pose2d(49,-43, Math.toRadians(0)))
+                //move to backdrop
+                .lineToLinearHeading(new Pose2d(50,-41.5, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
+                //correct four bar position and drop pixel
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
                 .addTemporalMarkerOffset(0.75, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
-                .waitSeconds(1.5)
+                .waitSeconds(1)
                 .back(6)
                 .build();
 

@@ -84,7 +84,7 @@ public class A_BlueFarV1PixelDrop extends LinearOpMode {
                 //go to wall
                 .lineToLinearHeading(new Pose2d(-42, 58.5, Math.toRadians(0)))
                 //go through truss
-                .splineToLinearHeading(new Pose2d(7, 58.5, Math.toRadians(0)), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(7, 58.5, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
 //        TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
@@ -114,7 +114,7 @@ public class A_BlueFarV1PixelDrop extends LinearOpMode {
                 //go to wall
                 .lineToLinearHeading(new Pose2d(-42, 58.5, Math.toRadians(0)))
                 //go past truss
-                .splineToLinearHeading(new Pose2d(7, 58.5, Math.toRadians(0)), Math.toRadians(0))
+//                .splineToLinearHeading(new Pose2d(7, 58.5, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
 

@@ -69,7 +69,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(7, 58, 0), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     // raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(-30))
@@ -78,7 +78,7 @@ public class A_BlueFarV1 extends LinearOpMode {
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -104,7 +104,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(7, 58, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     // raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, 38, Math.toRadians(0)), Math.toRadians(-30))
@@ -113,7 +113,7 @@ public class A_BlueFarV1 extends LinearOpMode {
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 .addTemporalMarker(.5, () -> { // Can call other parts of the robot
@@ -140,16 +140,16 @@ public class A_BlueFarV1 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(7, 58, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     // raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 32, Math.toRadians(0)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, 33, Math.toRadians(0)), Math.toRadians(-30))
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1550);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel

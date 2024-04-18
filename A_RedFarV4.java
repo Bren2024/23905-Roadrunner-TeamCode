@@ -42,7 +42,7 @@ public class A_RedFarV4 extends LinearOpMode {
         //////////////LEFT////////////////////////
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-46.0, -44.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-43.5, -43, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
@@ -52,7 +52,7 @@ public class A_RedFarV4 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(10, -58, 0), Math.toRadians(0))
                 //raise 4bar
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1300);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51,-29, Math.toRadians(0)), Math.toRadians(45))
@@ -61,7 +61,7 @@ public class A_RedFarV4 extends LinearOpMode {
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1300);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -76,7 +76,7 @@ public class A_RedFarV4 extends LinearOpMode {
         ////////////////////////MID/////////////////////
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-39.5, -36, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-39.5, -34, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
@@ -86,16 +86,16 @@ public class A_RedFarV4 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(0, -58, Math.toRadians(0)), Math.toRadians(0))
                 //raise 4bar
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1300);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(50,-34, Math.toRadians(0)), Math.toRadians(30))
+                .splineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)), Math.toRadians(30))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1300);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -110,13 +110,13 @@ public class A_RedFarV4 extends LinearOpMode {
         /////////////////RIGHT//////////////
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-45, -32, Math.toRadians(0))) //-40
+                .lineToLinearHeading(new Pose2d(-45, -37, Math.toRadians(0))) //-40
                 //extend tail halfway
                 .addTemporalMarker(1.5, () -> { // Can call other parts of the robot
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
                 // align for tail drop
-                .lineToLinearHeading(new Pose2d(-35, -35, Math.toRadians(0))) //38.5, 34
+                .lineToLinearHeading(new Pose2d(-35, -37, Math.toRadians(0))) //38.5, 34
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
@@ -133,24 +133,24 @@ public class A_RedFarV4 extends LinearOpMode {
                     //store tail while moving away
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_BETWEEN_LEGS);
                 })
-                .lineToLinearHeading(new Pose2d(-42, -58, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-42, -58.5, Math.toRadians(0))) //y=-58
                 //go past truss
                 //.lineToLinearHeading(new Pose2d(10, 58.5, Math.toRadians(0)))
-                .splineToLinearHeading(new Pose2d(0, -58, Math.toRadians(0)), Math.toRadians(0))
+                .waitSeconds(0.5)
+                .splineToLinearHeading(new Pose2d(0, -58.5, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     //raise 4bar
-                    freezeray.autonRaiseWeaponHeight(this,1300);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                 })
-                .waitSeconds(0.5)
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, -43, Math.toRadians(0)), Math.toRadians(30))
+                .splineToLinearHeading(new Pose2d(51, -42, Math.toRadians(0)), Math.toRadians(30))
                 //.lineToLinearHeading(new Pose2d(48, -43.5, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1300);
+                    freezeray.autonRaiseWeaponHeight(this,1200);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -231,7 +231,8 @@ public class A_RedFarV4 extends LinearOpMode {
     }
 
     /**
-     * Creates a trajectory that strafes from current estimated position to target position
+     * Creates a trajectory that strafes from current estimated pose to target pose
+     * Note: Doesn't
      * @param pose
      * @param maxVel
      * @param maxAccel

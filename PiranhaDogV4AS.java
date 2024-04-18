@@ -74,9 +74,9 @@ public class PiranhaDogV4AS {
     //(800-500)/2000 = .15 MIN VALUE
     //(2200-500)/2000 = .85 MAX VALUE
     private static double JAW_OPEN = .8125d;
-    private static double JAW_LARGE_BITE = .75d;
-    private static double JAW_MEDIUM_BITE = .735d;
-    private static double JAW_SMALL_BITE = .725d;
+    private static double JAW_LARGE_BITE = .78d; //highest, dpad right //.75
+    private static double JAW_MEDIUM_BITE = .75d; //second to lowest, dpad left //.735
+    private static double JAW_SMALL_BITE = .725d; //all the way down, dpad down
     private static double JAW_SPITA = .6d;
     private static double JAW_SPITB = .4d;
     private static double JAW_STOP = .8d;

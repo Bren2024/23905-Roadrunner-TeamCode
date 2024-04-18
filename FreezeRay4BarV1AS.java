@@ -115,14 +115,14 @@ public class FreezeRay4BarV1AS {
         mtrFreezeRayLeft = opMode.hardwareMap.get(DcMotor.class, "mtrFreezeRayLeft");
         mtrFreezeRayLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         mtrFreezeRayLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         
         //mtrJetLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
         mtrFreezeRayRight = opMode.hardwareMap.get(DcMotor.class, "mtrFreezeRayRight");
         mtrFreezeRayRight.setDirection(DcMotorSimple.Direction.REVERSE);
         mtrFreezeRayRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         
         //mtrJetRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
@@ -193,14 +193,14 @@ public class FreezeRay4BarV1AS {
         }
         if ((opMode.gamepad2.right_stick_button)){
             unholsterFreezeRay();//set servo first
-            gnRayPosReq=RAY_POS_HOLSTER;
+            //gnRayPosReq=RAY_POS_HOLSTER;
             gbRayAuto=true;
-            mtrFreezeRayRight.setTargetPosition(RAY_POS_HOLSTER);
-            mtrFreezeRayLeft.setTargetPosition(RAY_POS_HOLSTER);
-            mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            mtrFreezeRayLeft.setPower(RAY_PWR);
-            mtrFreezeRayRight.setPower(RAY_PWR);
+            mtrFreezeRayLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            mtrFreezeRayRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            mtrFreezeRayLeft.setPower(RAY_PWR);
+//            mtrFreezeRayRight.setPower(RAY_PWR);
         }
         if ((opMode.gamepad2.right_stick_y > (0.4))&&  //stick back
                 (opMode.gamepad2.right_stick_x > (-0.4))&&
@@ -486,8 +486,8 @@ public class FreezeRay4BarV1AS {
             
             mtrFreezeRayLeft.setPower(0);
             mtrFreezeRayRight.setPower(0);
-            mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-            mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+            mtrFreezeRayLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            mtrFreezeRayRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             
         
         }

@@ -183,7 +183,7 @@ public class A_RedFarV4 extends LinearOpMode {
             drive.followTrajectorySequence(rightTraj1);
             drive.followTrajectory(buildCorrectionTraj(rightTraj1.end(), 10, 10));
             drive.followTrajectorySequence(rightTraj2);
-            drive.followTrajectorySequence(buildCorrectionTraj2(rightTraj2.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(rightTraj2.end(), 10, 10));
             drive.followTrajectorySequence(rightTraj3);
             freezeray.autonMakeWeaponSafe(this);
         }
@@ -230,9 +230,16 @@ public class A_RedFarV4 extends LinearOpMode {
 //        drive.followTrajectorySequence(returnBack);
     }
 
+    /**
+     * Creates a trajectory that strafes from current estimated position to target position
+     * @param pose
+     * @param maxVel
+     * @param maxAccel
+     * @return
+     */
     private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(pose,
+                .lineToSplineHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleSwerveDrive.getAccelerationConstraint(maxAccel))
                 .build();
@@ -249,7 +256,7 @@ public class A_RedFarV4 extends LinearOpMode {
     private TrajectorySequence buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
         TrajectorySequence correction = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 // Turn to correct
-                .turn(pose.getHeading()-drive.getPoseEstimate().getHeading())
+                .turn((pose.getHeading()-drive.getPoseEstimate().getHeading()+3*Math.PI)%(2*Math.PI)-Math.PI) // Clamp between -π & π
                 // Strafe to correct
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

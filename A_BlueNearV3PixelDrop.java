@@ -110,7 +110,7 @@ public class A_BlueNearV3PixelDrop extends LinearOpMode {
      */
     private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(pose,
+                .lineToSplineHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleSwerveDrive.getAccelerationConstraint(maxAccel))
                 .build();
@@ -127,7 +127,7 @@ public class A_BlueNearV3PixelDrop extends LinearOpMode {
     private TrajectorySequence buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
         TrajectorySequence correction = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 // Turn to correct
-                .turn(pose.getHeading()-drive.getPoseEstimate().getHeading())
+                .turn((pose.getHeading()-drive.getPoseEstimate().getHeading()+3*Math.PI)%(2*Math.PI)-Math.PI) // Clamp between -π & π
                 // Strafe to correct
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

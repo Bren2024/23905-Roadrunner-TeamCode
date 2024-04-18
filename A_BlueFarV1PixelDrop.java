@@ -177,12 +177,6 @@ public class A_BlueFarV1PixelDrop extends LinearOpMode {
 //        drive.followTrajectorySequence(returnBack);
     }
 
-    private Trajectory buildCorrectionTraj(Pose2d pose) {
-        Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(pose)
-                .build();
-        return correction;
-    }
     /**
      * Creates a trajectory that strafes from current estimated position to target position
      * @param pose
@@ -192,21 +186,29 @@ public class A_BlueFarV1PixelDrop extends LinearOpMode {
      */
     private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(pose,
+                .lineToSplineHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleSwerveDrive.getAccelerationConstraint(maxAccel))
                 .build();
         return correction;
     }
 
-    /*
-    ref
-                .lineToLinearHeading(new Pose2d(11,36, Math.toRadians(180)))
-                .addTemporalMarker(() -> { // Can call other parts of the robot
-                    piranhatail.autonFlickPixel(this,2200,100);
-                })
-                .waitSeconds(2) //let pixel drop on floor
-                .lineToLinearHeading(new Pose2d(51,29, Math.toRadians(0)))
-                .build();
+    /**
+     * Creates a trajectory that turns to the correct heading, then strafes to the correct position
+     * @param pose
+     * @param maxVel
+     * @param maxAccel
+     * @return Built trajectory
      */
+    private TrajectorySequence buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
+        TrajectorySequence correction = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                // Turn to correct
+                .turn((pose.getHeading()-drive.getPoseEstimate().getHeading()+3*Math.PI)%(2*Math.PI)-Math.PI) // Clamp between -π & π
+                // Strafe to correct
+                .lineToLinearHeading(pose,
+                        SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleSwerveDrive.getAccelerationConstraint(maxAccel))
+                .build();
+        return correction;
+    }
 }

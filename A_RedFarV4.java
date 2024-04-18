@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous(group = "drive")
-public class A_RedFarV3 extends LinearOpMode {
+@Autonomous(name="Red Far V4",group = "AAA")
+public class A_RedFarV4 extends LinearOpMode {
 
     private SampleSwerveDrive drive;
     private Goggles2V3AS goggles2 = new Goggles2V3AS();
@@ -47,9 +47,9 @@ public class A_RedFarV3 extends LinearOpMode {
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
                 //go to wall
-                .lineToLinearHeading(new Pose2d(-36.75, -58.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-42, -58, Math.toRadians(0)))
                 //go past truss
-                .splineToLinearHeading(new Pose2d(10, -58.5, 0), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(10, -58, 0), Math.toRadians(0))
                 //raise 4bar
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1300);
@@ -61,6 +61,7 @@ public class A_RedFarV3 extends LinearOpMode {
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,1300);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -80,9 +81,9 @@ public class A_RedFarV3 extends LinearOpMode {
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 //go to wall
-                .lineToLinearHeading(new Pose2d(-36.75, -58.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-42, -58, Math.toRadians(0)))
                 //go past truss
-                .splineToLinearHeading(new Pose2d(0, -58.5, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(0, -58, Math.toRadians(0)), Math.toRadians(0))
                 //raise 4bar
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1300);
@@ -94,6 +95,7 @@ public class A_RedFarV3 extends LinearOpMode {
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,1300);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -114,7 +116,7 @@ public class A_RedFarV3 extends LinearOpMode {
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_HFLICK);
                 })
                 // align for tail drop
-                .lineToLinearHeading(new Pose2d(-36.5, -32, Math.toRadians(0))) //38.5, 34
+                .lineToLinearHeading(new Pose2d(-35, -35, Math.toRadians(0))) //38.5, 34
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
@@ -131,14 +133,15 @@ public class A_RedFarV3 extends LinearOpMode {
                     //store tail while moving away
                     piranhatail.autonSetFlickPixel(this, PiranhaTailAS.TAIL_BETWEEN_LEGS);
                 })
-                .lineToLinearHeading(new Pose2d(-36.75, -58.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-42, -58, Math.toRadians(0)))
                 //go past truss
                 //.lineToLinearHeading(new Pose2d(10, 58.5, Math.toRadians(0)))
-                .splineToLinearHeading(new Pose2d(0, -58.5, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(0, -58, Math.toRadians(0)), Math.toRadians(0))
                 .addTemporalMarker(() -> {
                     //raise 4bar
                     freezeray.autonRaiseWeaponHeight(this,1300);
                 })
+                .waitSeconds(0.5)
                 //go to backdrop
                 .splineToLinearHeading(new Pose2d(51, -43, Math.toRadians(0)), Math.toRadians(30))
                 //.lineToLinearHeading(new Pose2d(48, -43.5, Math.toRadians(0)))
@@ -147,6 +150,7 @@ public class A_RedFarV3 extends LinearOpMode {
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
+                    freezeray.autonRaiseWeaponHeight(this,1300);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -172,24 +176,24 @@ public class A_RedFarV3 extends LinearOpMode {
         telemetry.update();
 
         if (nPropPos == goggles2.PROP_NONE)
-            nPropPos = goggles2.PROP_MID;
+            nPropPos = goggles2.PROP_LEFT;
 
         if (nPropPos == goggles2.PROP_RIGHT) {
             //get to spike mark and drop pixel
             drive.followTrajectorySequence(rightTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(rightTraj1.end(), 10, 10));
             drive.followTrajectorySequence(rightTraj2);
-            drive.followTrajectory(buildCorrectionTrajectory(rightTraj2.end(), 10, 10));
+            drive.followTrajectorySequence(buildCorrectionTraj2(rightTraj2.end(), 10, 10));
             drive.followTrajectorySequence(rightTraj3);
             freezeray.autonMakeWeaponSafe(this);
         }
         else if (nPropPos == goggles2.PROP_MID) {
             //goto spike mark
             drive.followTrajectorySequence(midTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(midTraj2);
-            drive.followTrajectory(buildCorrectionTrajectory(midTraj2.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(midTraj2.end(), 10, 10));
             drive.followTrajectorySequence(midTraj3);
             freezeray.autonMakeWeaponSafe(this);
 
@@ -197,16 +201,16 @@ public class A_RedFarV3 extends LinearOpMode {
         else {  //LEFT
             //go to spike mark
             drive.followTrajectorySequence(leftTraj1);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj1.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(leftTraj1.end(), 10, 10));
             piranhatail.autonFlickPixel(this,2200,100);
             drive.followTrajectorySequence(leftTraj2);
-            drive.followTrajectory(buildCorrectionTrajectory(leftTraj2.end(), 10, 10));
+            drive.followTrajectory(buildCorrectionTraj(leftTraj2.end(), 10, 10));
             drive.followTrajectorySequence(leftTraj3);
             freezeray.autonMakeWeaponSafe(this);
         }
 
         Trajectory moveToPark = drive.trajectoryBuilder(drive.getPoseEstimate())
-             .strafeTo(new Vector2d(50, -12))
+                .strafeTo(new Vector2d(48, -12))
                 .build(); // traj instead of trajSeq for simplicity as this is building during autonomous
 
         drive.followTrajectory(moveToPark);
@@ -214,27 +218,39 @@ public class A_RedFarV3 extends LinearOpMode {
 
 
         //TODO: COMMENT OUT BELOW WHEN DONE!!
-        TrajectorySequence returnBack = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                //go to front of truss
-                .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                //go to back of truss
-
-                .lineToLinearHeading(new Pose2d(-42.0, -59.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                //go past truss
-                .lineToLinearHeading(startPose)
-                .build();
-        drive.followTrajectorySequence(returnBack);
+//        TrajectorySequence returnBack = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+//                //go to front of truss
+//                .lineToLinearHeading(new Pose2d(10.0, -58.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+//                //go to back of truss
+//
+//                .lineToLinearHeading(new Pose2d(-42.0, -59.5, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
+//                //go past truss
+//                .lineToLinearHeading(startPose)
+//                .build();
+//        drive.followTrajectorySequence(returnBack);
     }
 
-    private Trajectory buildCorrectionTrajectory(Pose2d pose) {
+    private Trajectory buildCorrectionTraj(Pose2d pose, double maxVel, double maxAccel) {
         Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-35, -37, Math.toRadians(0))) //x:18-48(two tiles)-8 (other side of prop)
-                .lineToLinearHeading(pose)
+                .lineToLinearHeading(pose,
+                        SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleSwerveDrive.getAccelerationConstraint(maxAccel))
                 .build();
         return correction;
     }
-    private Trajectory buildCorrectionTrajectory(Pose2d pose, double maxVel, double maxAccel) {
-        Trajectory correction = drive.trajectoryBuilder(drive.getPoseEstimate())
+
+    /**
+     * Creates a trajectory that turns to the correct heading, then strafes to the correct position
+     * @param pose
+     * @param maxVel
+     * @param maxAccel
+     * @return Built trajectory
+     */
+    private TrajectorySequence buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
+        TrajectorySequence correction = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                // Turn to correct
+                .turn(pose.getHeading()-drive.getPoseEstimate().getHeading())
+                // Strafe to correct
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleSwerveDrive.getAccelerationConstraint(maxAccel))

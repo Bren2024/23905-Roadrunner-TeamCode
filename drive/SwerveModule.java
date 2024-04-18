@@ -124,12 +124,24 @@ public class SwerveModule {
     }
     double lastMotorPower = 0;
     public void setMotorPower(double power) {
-        targetPower = power;
-        //target check
+        //set current module error in shared array
         double error = getTargetRotation()-getModuleRotation();
         errors[id] = error;
-        if(WAIT_FOR_TARGET && isWithinAllowedError()) {
-            power *= 1-Math.abs(Math.sin(Range.clip(Math.max(Math.max(errors[0], errors[1]), Math.max(errors[2], errors[3])), -Math.PI/2, Math.PI/2)));
+
+        // Find minimum power multiplier among all modules
+        double minPowerMult = 1;
+        for (double e : errors) {
+            double powerMult = 1 - Math.abs(Math.sin(Range.clip(e, -Math.PI, Math.PI)));
+            if (powerMult < minPowerMult) {
+                minPowerMult = powerMult;
+            }
+        }
+
+        if(WAIT_FOR_TARGET && !isWithinAllowedError()) {
+            power *= minPowerMult;
+            if (Math.abs(error) > Math.PI/2) {
+                power *= -1;
+            }
         }
 //        if(waitingForTarget[0] || waitingForTarget[1] || waitingForTarget[2] || waitingForTarget[3]) {
 //            power = 0;
@@ -170,8 +182,8 @@ public class SwerveModule {
             wheelFlipped = (Math.abs(current - target) > (Math.PI / 2 - flipModifier()*FLIP_BIAS))
                     || (Math.abs(target) > 3); // 3: Maximum number of radians the module can turn
 
-            // Unflip target if flipped target is over 2.9
-            if (wheelFlipped && Math.abs(target) < Math.PI - 2.9) {
+            // Unflip target if flipped target is over 3 rad
+            if (wheelFlipped && Math.abs(target) < Math.PI - 3) {
                 wheelFlipped = false;
             }
 
@@ -182,10 +194,10 @@ public class SwerveModule {
                 }
             }
         }
-        // To reset servo position once not moving
-        if (targetPower == 0) {
-            target = 0;
-        }
+//        // To reset servo position once not moving
+//        if (lastMotorPower < MIN_MOTOR_TO_TURN) {
+//            target = 0;
+//        }
         double targetDeg = Math.toDegrees(target);
         servo.setPosition(degToPos(targetDeg));
         targetRotation = target;

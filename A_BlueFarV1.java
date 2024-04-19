@@ -72,7 +72,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, 43, 0), Math.toRadians(0))
                 .build();
 
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
@@ -94,7 +94,7 @@ public class A_BlueFarV1 extends LinearOpMode {
         //////////////MID//////////////////////////
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-42, 34, Math.toRadians(-90))) //make Y 35??
+                .lineToLinearHeading(new Pose2d(-42, 35.5, Math.toRadians(-90))) //make Y 35??
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
@@ -107,7 +107,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 38, Math.toRadians(0)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, 38, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
@@ -143,7 +143,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, 33, Math.toRadians(0)), Math.toRadians(-30))
+                .splineToLinearHeading(new Pose2d(51, 33, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())

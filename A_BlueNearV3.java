@@ -40,7 +40,7 @@ public class A_BlueNearV3 extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(15,44.5, Math.toRadians(-60)))
+                .lineToLinearHeading(new Pose2d(14.5,44.5, Math.toRadians(-60)))
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
@@ -48,7 +48,7 @@ public class A_BlueNearV3 extends LinearOpMode {
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
-                .lineToLinearHeading(new Pose2d(51.5,45.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51,45.5, Math.toRadians(0)))
                 .addTemporalMarker(() -> {
                     freezeray.autonRaiseWeaponHeight(this,1200); //1575
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524

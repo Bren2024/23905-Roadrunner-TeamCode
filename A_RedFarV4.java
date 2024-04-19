@@ -42,7 +42,7 @@ public class A_RedFarV4 extends LinearOpMode {
         //////////////LEFT////////////////////////
         TrajectorySequence leftTraj1 = drive.trajectorySequenceBuilder(startPose)
                 //go to prop
-                .lineToLinearHeading(new Pose2d(-43.5, -43, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-44, -43, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
@@ -55,7 +55,7 @@ public class A_RedFarV4 extends LinearOpMode {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51,-29, Math.toRadians(0)), Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(51,-30, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
         TrajectorySequence leftTraj3 = drive.trajectorySequenceBuilder(leftTraj2.end())
@@ -65,7 +65,7 @@ public class A_RedFarV4 extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
+                .addTemporalMarker(.75, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1.5)
@@ -89,7 +89,7 @@ public class A_RedFarV4 extends LinearOpMode {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)), Math.toRadians(30))
+                .splineToLinearHeading(new Pose2d(50,-35, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
@@ -99,7 +99,7 @@ public class A_RedFarV4 extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarker(.5, () -> { // Can call other parts of the robot
+                .addTemporalMarker(.75, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1.5)
@@ -143,7 +143,7 @@ public class A_RedFarV4 extends LinearOpMode {
                     freezeray.autonRaiseWeaponHeight(this,1200);
                 })
                 //go to backdrop
-                .splineToLinearHeading(new Pose2d(51, -42, Math.toRadians(0)), Math.toRadians(30))
+                .splineToLinearHeading(new Pose2d(51, -42, Math.toRadians(0)), Math.toRadians(0))
                 //.lineToLinearHeading(new Pose2d(48, -43.5, Math.toRadians(0)))
                 .build();
 
@@ -154,7 +154,7 @@ public class A_RedFarV4 extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarker(.5, () -> {
+                .addTemporalMarker(.75, () -> {
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1.5)

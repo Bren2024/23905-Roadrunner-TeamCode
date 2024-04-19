@@ -46,15 +46,15 @@ public class A_RedNearV4 extends LinearOpMode {
                 })
                 .waitSeconds(2.2) //let pixel drop on floor
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1200);
+                    freezeray.autonRaiseWeaponHeight(this,1000);
                 })
-                .lineToLinearHeading(new Pose2d(50,-31, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51,-31, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence leftTraj2 = drive.trajectorySequenceBuilder(leftTraj1.end())
                 //extend bipod
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1200);
+                    freezeray.autonRaiseWeaponHeight(this,1000);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -66,20 +66,20 @@ public class A_RedNearV4 extends LinearOpMode {
                 .build();
 
         TrajectorySequence midTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(20, -35.5, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(19, -35.5, Math.toRadians(90)))
                 .build();
 
         TrajectorySequence midTraj2 = drive.trajectorySequenceBuilder(midTraj1.end())
                 .strafeTo(new Vector2d(20, -40))
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1200);
+                    freezeray.autonRaiseWeaponHeight(this,1000);
                 })
-                .lineToLinearHeading(new Pose2d(50,-35.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51,-36, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence midTraj3 = drive.trajectorySequenceBuilder(midTraj2.end())
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1200);
+                    freezeray.autonRaiseWeaponHeight(this,1000);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
@@ -91,7 +91,7 @@ public class A_RedNearV4 extends LinearOpMode {
                 .build();
 
         TrajectorySequence rightTraj1 = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(21,-45, Math.toRadians(60)))
+                .lineToLinearHeading(new Pose2d(20,-45, Math.toRadians(60)))
                 .build();
 
         TrajectorySequence rightTraj2 = drive.trajectorySequenceBuilder(rightTraj1.end())
@@ -104,16 +104,16 @@ public class A_RedNearV4 extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(24,-58, Math.toRadians(0)))
                 //raise fourbar
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1200);
+                    freezeray.autonRaiseWeaponHeight(this,1000);
                 })
                 //move to backdrop
-                .lineToLinearHeading(new Pose2d(50,-41.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(51,-41.5, Math.toRadians(0)))
                 .build();
 
         TrajectorySequence rightTraj3 = drive.trajectorySequenceBuilder(rightTraj2.end())
                 //correct four bar position and drop pixel
                 .addTemporalMarker(() -> {
-                    freezeray.autonRaiseWeaponHeight(this,1200);
+                    freezeray.autonRaiseWeaponHeight(this,1000);
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel

@@ -83,7 +83,7 @@ public class A_RedNearV3 extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1.5)
@@ -107,7 +107,7 @@ public class A_RedNearV3 extends LinearOpMode {
                 })
                 .waitSeconds(1.5)
                 //release pixel
-                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .build();

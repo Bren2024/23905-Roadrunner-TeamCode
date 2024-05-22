@@ -236,7 +236,7 @@ public class A_BlueFarV1JavaTheHutts extends LinearOpMode {
     private TrajectorySequence buildCorrectionTraj2(Pose2d pose, double maxVel, double maxAccel) {
         TrajectorySequence correction = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 // Turn to correct
-                .turnTo(pose.getHeading())
+                .turn((pose.getHeading()-drive.getPoseEstimate().getHeading()+3*Math.PI)%(2*Math.PI)-Math.PI) // Clamp between -π & π
                 // Strafe to correct
                 .lineToLinearHeading(pose,
                         SampleSwerveDrive.getVelocityConstraint(maxVel, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),

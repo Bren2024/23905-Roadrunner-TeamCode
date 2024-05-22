@@ -59,7 +59,7 @@ public class A_RedNearV4Fast extends LinearOpMode {
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1)
-                .addTemporalMarkerOffset(0.5, () -> {
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> {
                     freezeray.autonMakeWeaponSafe(this);
                 })
                 .lineToLinearHeading(new Pose2d(11,-35, Math.toRadians(180)))
@@ -78,7 +78,7 @@ public class A_RedNearV4Fast extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1)
@@ -102,7 +102,7 @@ public class A_RedNearV4Fast extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarkerOffset(0.75, () -> { // Can call other parts of the robot
+                .UNSTABLE_addTemporalMarkerOffset(0.75, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(1)

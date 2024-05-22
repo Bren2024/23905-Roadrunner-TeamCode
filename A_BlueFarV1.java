@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleSwerveDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 
 
 @Autonomous(name="Blue Far V1",group = "AAA")
@@ -153,7 +152,7 @@ public class A_BlueFarV1 extends LinearOpMode {
                     freezeray.autonAimWeapon(this,.470d,0.530d); //left .472 right 524
                 })
                 //release pixel
-                .addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
+                .UNSTABLE_addTemporalMarkerOffset(.5, () -> { // Can call other parts of the robot
                     freezeray.autonShoot(this);
                 })
                 .waitSeconds(2)

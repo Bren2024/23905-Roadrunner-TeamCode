@@ -26,8 +26,8 @@ public class SwerveModule {
 
     //EXPERIMENTAL FEATURES
     public static boolean WAIT_FOR_TARGET = true;
-    public static boolean[] waitingForTarget = new boolean[4];
-    public static double[] errors = new double[4];
+    public static boolean[] waitingForTarget = new boolean[4]; // Shared between all 4 modules
+    public static double[] errors = new double[4]; // Shared between all 4 modules
 
     public static double ALLOWED_COS_ERROR = Math.toRadians(2);
 
@@ -49,9 +49,6 @@ public class SwerveModule {
 
     private final double DEG_TO_POS = 0.003d; //0=0deg 1=355deg 1/355 = .00282
     private int id;
-    public double rawTarget = 0;
-    public double normTarget = 0;
-    private double targetPower = 0;
 
     public SwerveModule(DcMotorEx m, Servo s, AnalogInput e) {
         motor = m;
@@ -128,16 +125,16 @@ public class SwerveModule {
         double error = getTargetRotation()-getModuleRotation();
         errors[id] = error;
 
-        // Find minimum power multiplier among all modules
-        double minPowerMult = 1;
-        for (double e : errors) {
-            double powerMult = 1 - Math.abs(Math.sin(Range.clip(e, -Math.PI, Math.PI)));
-            if (powerMult < minPowerMult) {
-                minPowerMult = powerMult;
-            }
-        }
-
         if(WAIT_FOR_TARGET && !isWithinAllowedError()) {
+            // Find minimum power multiplier among all modules
+            double minPowerMult = 1;
+            for (double e : errors) {
+                double powerMult = 1 - Math.abs(Math.sin(Range.clip(e, -Math.PI, Math.PI)));
+                if (powerMult < minPowerMult) {
+                    minPowerMult = powerMult;
+                }
+            }
+
             power *= minPowerMult;
             if (Math.abs(error) > Math.PI/2) {
                 power *= -1;
@@ -164,11 +161,10 @@ public class SwerveModule {
 
     public static double MIN_MOTOR_TO_TURN = 0.025;
     public void setTargetRotation(double target) {
-        if(Math.abs(lastMotorPower) < MIN_MOTOR_TO_TURN){
+        if (Math.abs(lastMotorPower) < MIN_MOTOR_TO_TURN) {
             //add stuff like X-ing preAlign
             return;
         }
-        rawTarget = target;
         if (MOTOR_FLIPPING) {
             double current = getModuleRotation();
 
@@ -176,10 +172,8 @@ public class SwerveModule {
             if (current - target > Math.PI) target += (2 * Math.PI);
             else if (target - current > Math.PI) target -= (2 * Math.PI);
 
-            normTarget = target; //For Telemetry
-
             //flip target
-            wheelFlipped = (Math.abs(current - target) > (Math.PI / 2 - flipModifier()*FLIP_BIAS))
+            wheelFlipped = (Math.abs(current - target) > (Math.PI / 2 - flipModifier() * FLIP_BIAS))
                     || (Math.abs(target) > 3); // 3: Maximum number of radians the module can turn
 
             // Unflip target if flipped target is over 3 rad
@@ -190,7 +184,7 @@ public class SwerveModule {
             if (wheelFlipped) {
                 target = Angle.norm(target + Math.PI);
                 if (target > Math.PI) {
-                    target -= 2*Math.PI;
+                    target -= 2 * Math.PI;
                 }
             }
         }
